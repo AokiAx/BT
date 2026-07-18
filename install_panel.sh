@@ -14,7 +14,12 @@ INSTALL_LOGFILE="/tmp/btpanel-install.log"
 if [ -f "$INSTALL_LOGFILE" ];then
     rm -f $INSTALL_LOGFILE
 fi
-exec > >(tee -a "$INSTALL_LOGFILE") 2>&1 
+# 行缓冲 tee，避免长时间无输出看起来像卡住；日志仍写入文件
+if command -v stdbuf >/dev/null 2>&1; then
+	exec > >(stdbuf -oL -eL tee -a "$INSTALL_LOGFILE") 2>&1
+else
+	exec > >(tee -a "$INSTALL_LOGFILE") 2>&1
+fi 
 
 CURL_CHECK=$(which curl)
 if [ "$?" == "0" ];then

@@ -91,8 +91,18 @@ export PANEL_ZIP_URL=""
 
 chmod +x install_panel.sh
 echo "开始安装面板（纯净包）..."
-# -y 跳过交互确认，否则 curl|bash 会卡在 y/n
-bash install_panel.sh -y "${INSTALL_EDITION}"
+# 非交互：跳过 y/n、已有 Web 环境二次确认；避免 apt/needrestart 卡住
+export INSTALL_FORCE=true
+export DEBIAN_FRONTEND=noninteractive
+export NEEDRESTART_MODE=a
+export NEEDRESTART_SUSPEND=1
+# -y 跳过安装确认；stdin 断开防止任何残留 read 挂死 curl|bash
+# 标准输出行缓冲，避免 tee 导致长时间无输出像「卡住」
+if command -v stdbuf >/dev/null 2>&1; then
+	stdbuf -oL -eL bash install_panel.sh -y "${INSTALL_EDITION}" </dev/null
+else
+	bash install_panel.sh -y "${INSTALL_EDITION}" </dev/null
+fi
 
 echo ""
 echo "============================================================"
