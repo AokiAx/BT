@@ -1,0 +1,1 @@
+System.register(["./btpanel-ui-lib-legacy.js?v=1784166457"],function(e,t){var n,i;return{setters:[function(e){n=e.a,i=e.n}],execute:function(){e("name","@btpanel/ui/other"),e("provider",{...i,BtDivider:n})}}});

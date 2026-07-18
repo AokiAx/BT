@@ -1,0 +1,1 @@
+System.register(["./monaco-editor-lib-legacy.js?v=1784166457"],function(e,o){var t;return{setters:[function(e){t=e.Wt}],execute:function(){e("name","monaco-editor/esm/vs/editor/contrib/documentSymbols/browser/outlineModel"),e("provider",t)}}});

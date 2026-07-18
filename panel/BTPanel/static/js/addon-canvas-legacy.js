@@ -1,0 +1,1 @@
+System.register(["./rolldown-runtime-legacy.js?v=1784166457","./xterm-addon-canvas-lib-legacy.js?v=1784166457"],function(n,e){var a,t,r;return{setters:[function(n){a=n.r},function(n){t=n.t}],execute:function(){r=a(t()),n("name","@xterm/addon-canvas"),n("provider",{...r,CanvasAddon:r.CanvasAddon})}}});

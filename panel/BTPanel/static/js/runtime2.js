@@ -1,0 +1,1 @@
+import{t as e}from"./btpanel-runtime-lib.js?v=1784166457";var t=`@btpanel/runtime`,n=e;export{t as name,n as provider};

@@ -1,0 +1,1 @@
+System.register(["./xterm-addon-web-links-lib-legacy.js?v=1784166457"],function(e,n){var t,r;return{setters:[function(e){t=e.n,r=e.t}],execute:function(){e("name","@xterm/addon-web-links"),e("provider",{...t,WebLinksAddon:r})}}});

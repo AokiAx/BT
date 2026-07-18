@@ -1,0 +1,1 @@
+System.register(["./main-legacy.js?v=1784166457"],function(e,t){return{setters:[function(e){}],execute:function(){}}});

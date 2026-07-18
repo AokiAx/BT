@@ -1,0 +1,1 @@
+import{Gt as e,Jt as t,Kt as n,Wt as r,Xt as i,Yt as a,Zt as o,qt as s}from"./element-plus-lib.js?v=1784166457";var c=`@element-plus/icons-vue`,l={...e,Search:i,Refresh:a,Plus:t,Edit:s,Delete:r,Download:n,Upload:o};export{c as name,l as provider};

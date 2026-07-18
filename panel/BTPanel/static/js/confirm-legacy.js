@@ -1,0 +1,1 @@
+System.register(["./btpanel-hooks-lib-legacy.js?v=1784166457"],function(e,t){var n,o;return{setters:[function(e){n=e.Mt,o=e.Nt}],execute:function(){e("name","@btpanel/hooks/feedback/confirm"),e("provider",{...n,useConfirm:o})}}});

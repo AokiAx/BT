@@ -1,0 +1,1 @@
+System.register(["./rolldown-runtime-legacy.js?v=1784166457"],function(e,t){var n;return{setters:[function(e){n=e.n}],execute:function(){e("t",n({}))}}});

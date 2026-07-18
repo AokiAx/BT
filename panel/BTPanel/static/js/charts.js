@@ -1,0 +1,1 @@
+import{i as e,n as t,r as n,t as r}from"./btpanel-hooks-lib.js?v=1784166457";var i=`@btpanel/hooks/charts`,a={...r,useECharts:n,useMapData:e,useChinaMapData:t};export{i as name,a as provider};

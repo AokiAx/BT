@@ -1,0 +1,1 @@
+import{H as e,L as t,W as n,Y as r,t as i,u as a}from"./btpanel-core-lib.js?v=1784166457";var o=`@btpanel/core`,s={...i,compareVersion:t,getPageTotal:a,isBoolean:e,isFunction:n,isString:r};export{o as name,s as provider};

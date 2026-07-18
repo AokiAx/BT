@@ -1,0 +1,1 @@
+import{br as e,yr as t}from"./global.js?v=VERSION_NUMBER";export{t as GLOBAL_STORE,e as useGlobalStore};

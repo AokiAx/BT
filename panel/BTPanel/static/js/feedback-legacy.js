@@ -1,0 +1,1 @@
+System.register(["./btpanel-hooks-lib-legacy.js?v=1784166457","./btpanel-ui-lib-legacy.js?v=1784166457"],function(e,t){var n,i,l,o,a;return{setters:[function(e){n=e.T,i=e.b},function(e){l=e.f,o=e.l,a=e.o}],execute:function(){e("name","@btpanel/ui/feedback"),e("provider",{...a,BtDialog:n,BtDialogV2:l,BtConfirm:i,BtResult:o})}}});

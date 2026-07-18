@@ -1,0 +1,1 @@
+import{Mt as e,Nt as t}from"./btpanel-hooks-lib.js?v=1784166457";var n=`@btpanel/hooks/feedback/confirm`,r={...e,useConfirm:t};export{n as name,r as provider};

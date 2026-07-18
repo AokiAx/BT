@@ -1,0 +1,1 @@
+System.register(["./btpanel-panel-business-components-lib-legacy.js?v=1784166457"],function(e,n){var s,t;return{setters:[function(e){s=e.X,t=e.Z}],execute:function(){e("name","@btpanel/panel-business/components/business/bt-product-preview/index.vue"),e("provider",{...t,default:s})}}});

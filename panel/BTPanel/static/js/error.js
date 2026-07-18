@@ -1,0 +1,1 @@
+import{i as e,r as t}from"./btpanel-panel-business-hooks-lib.js?v=1784166457";var n=`@btpanel/panel-business/hooks/tools/axios/model/error`,r={...t,mountErrorHandler:e};export{n as name,r as provider};

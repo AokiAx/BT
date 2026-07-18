@@ -1,0 +1,1 @@
+System.register(["./pinia-lib-legacy.js?v=1784166457"],function(e,t){var n,i,r,c;return{setters:[function(e){n=e.a,i=e.r,r=e.t}],execute:function(){i()||(c||(c=r()),n(c))}}});

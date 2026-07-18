@@ -1,0 +1,1 @@
+System.register(["./btpanel-runtime-monaco-editor-lib-legacy.js?v=1784166457"],function(e,n){var o,r,t,a;return{setters:[function(e){o=e.i,r=e.n,t=e.r,a=e.t}],execute:function(){e("name","@btpanel/runtime/monaco-editor"),e("provider",{...o,installPanelSharedMonacoEnvironment:r,loadPanelSharedMonaco:t,createPanelMonacoWorkerFactory:a})}}});

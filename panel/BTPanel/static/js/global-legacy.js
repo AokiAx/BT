@@ -1,0 +1,1 @@
+System.register(["./btpanel-panel-business-store-lib-legacy.js?v=1784166457"],function(e,n){var t,i,s,l;return{setters:[function(e){t=e.Ti,i=e.ni,s=e.nr,l=e.wr}],execute:function(){e("name","@btpanel/panel-business/api/global"),e("provider",{...i,getPluginFindInfo:l,saveFileBody:t,getFileContent:s})}}});

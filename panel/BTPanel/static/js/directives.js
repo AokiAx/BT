@@ -1,0 +1,1 @@
+import{n as e,r as t}from"./btpanel-vue-kit-lib.js?v=1784166457";var n=`@btpanel/vue-kit/directives`,r={...e,mountDirective:t};export{n as name,r as provider};

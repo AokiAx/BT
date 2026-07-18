@@ -1,0 +1,1 @@
+System.register(["./monaco-editor-lib-legacy.js?v=1784166457"],function(e,t){var n;return{setters:[function(e){n=e.Ut}],execute:function(){e("name","monaco-editor/esm/vs/editor/standalone/browser/standaloneServices"),e("provider",n)}}});

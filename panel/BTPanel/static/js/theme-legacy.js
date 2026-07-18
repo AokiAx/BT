@@ -1,0 +1,1 @@
+System.register(["./btpanel-panel-business-hooks-lib-legacy.js?v=1784166457"],function(e,n){var s,t;return{setters:[function(e){s=e.c,t=e.l}],execute:function(){e("name","@btpanel/panel-business/hooks/tools/theme/index"),e("provider",{...s,useThemeSync:t})}}});

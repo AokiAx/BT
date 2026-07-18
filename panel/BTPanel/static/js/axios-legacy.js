@@ -1,0 +1,1 @@
+System.register(["./btpanel-runtime-lib-legacy.js?v=1784166457"],function(e,t){var n,r;return{setters:[function(e){n=e.$,r=e.Q}],execute:function(){e("name","axios"),e("provider",{...r,default:n})}}});

@@ -1,0 +1,1 @@
+import{h as e,m as t}from"./btpanel-panel-business-hooks-lib.js?v=1784166457";var n=`@btpanel/panel-business/hooks/router-tabs`,r={...t,useRouterTabs:e};export{n as name,r as provider};

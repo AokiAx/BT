@@ -1,0 +1,1 @@
+import{At as e,Dt as t,Ot as n,kt as r}from"./btpanel-hooks-lib.js?v=1784166457";var i=`@btpanel/hooks/feedback/message`,a={...n,Message:t,useLoading:r,useMessage:e};export{i as name,a as provider};

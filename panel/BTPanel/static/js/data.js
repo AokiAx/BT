@@ -1,0 +1,1 @@
+import{St as e,bt as t,xt as n,yt as r}from"./btpanel-hooks-lib.js?v=1784166457";var i=`@btpanel/hooks/data`,a={...t,DataHandle:r,useDataHandle:n,useDataPage:e};export{i as name,a as provider};

@@ -1,0 +1,1 @@
+System.register(["./btpanel-panel-business-hooks-lib-legacy.js?v=1784166457"],function(e,s){var t,n,u,o,a;return{setters:[function(e){t=e.G,n=e.H,u=e.Q,o=e.V,a=e.n}],execute:function(){e("name","@btpanel/panel-business/hooks/tools/table/column"),e("provider",{...a,useOperate:t,useSwitch:u,useCheckbox:n,useBatchStatus:o})}}});

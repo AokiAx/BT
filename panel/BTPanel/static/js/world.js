@@ -1,0 +1,1 @@
+import{n as e,r as t}from"./btpanel-hooks-charts-data-lib.js?v=1784166457";var n=`@btpanel/hooks/charts/data/world`,r={...t,default:e};export{n as name,r as provider};

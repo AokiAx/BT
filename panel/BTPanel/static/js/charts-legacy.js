@@ -1,0 +1,1 @@
+System.register(["./btpanel-hooks-lib-legacy.js?v=1784166457"],function(e,t){var a,n,s,r;return{setters:[function(e){a=e.i,n=e.n,s=e.r,r=e.t}],execute:function(){e("name","@btpanel/hooks/charts"),e("provider",{...r,useECharts:s,useMapData:a,useChinaMapData:n})}}});

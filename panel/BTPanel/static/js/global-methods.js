@@ -1,0 +1,1 @@
+import{C as e,S as t,b as n,w as r,x as i,y as a}from"./btpanel-runtime-lib.js?v=1784166457";var o=`@btpanel/runtime/global-methods`,s={...t,registerGlobalMethods:e,setGlobalMethod:r,getGlobalMethod:n,getGlobalMethods:i,clearGlobalMethods:a};export{o as name,s as provider};

@@ -1,0 +1,1 @@
+System.register(["./btpanel-ui-echarts-runtime-lib-legacy.js?v=1784166457"],function(t,e){var n,r;return{setters:[function(t){n=t.n,r=t.t}],execute:function(){t("name","@btpanel/ui/data/bt-echart/runtime"),t("provider",{...n,loadEchartsRuntime:r})}}});

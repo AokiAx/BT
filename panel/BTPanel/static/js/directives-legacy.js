@@ -1,0 +1,1 @@
+System.register(["./btpanel-vue-kit-lib-legacy.js?v=1784166457"],function(e,t){var i,n;return{setters:[function(e){i=e.n,n=e.r}],execute:function(){e("name","@btpanel/vue-kit/directives"),e("provider",{...i,mountDirective:n})}}});

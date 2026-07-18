@@ -1,0 +1,1 @@
+System.register(["./btpanel-runtime-lib-legacy.js?v=1784166457"],function(e,t){var n;return{setters:[function(e){n=e.t}],execute:function(){e("name","@btpanel/runtime"),e("provider",n)}}});

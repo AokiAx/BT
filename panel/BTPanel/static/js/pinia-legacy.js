@@ -1,0 +1,1 @@
+System.register(["./pinia-lib-legacy.js?v=1784166457"],function(e,i){var n,t,r,o;return{setters:[function(e){n=e.i,t=e.n,r=e.o,o=e.t}],execute:function(){e("name","pinia"),e("provider",{...n,createPinia:o,defineStore:t,storeToRefs:r})}}});

@@ -1,0 +1,1 @@
+import{nt as e,tt as t}from"./btpanel-panel-business-hooks-lib.js?v=1784166457";var n=`@btpanel/panel-business/components/other/bt-ai-tips/index.vue`,r={...e,default:t};export{n as name,r as provider};

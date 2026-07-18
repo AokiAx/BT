@@ -1,0 +1,1 @@
+System.register(["./btpanel-panel-business-hooks-lib-legacy.js?v=1784166457"],function(e,n){var r,o;return{setters:[function(e){r=e.i,o=e.r}],execute:function(){e("name","@btpanel/panel-business/hooks/tools/axios/model/error"),e("provider",{...o,mountErrorHandler:r})}}});

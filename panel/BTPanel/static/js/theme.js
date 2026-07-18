@@ -1,0 +1,1 @@
+import{c as e,l as t}from"./btpanel-panel-business-hooks-lib.js?v=1784166457";var n=`@btpanel/panel-business/hooks/tools/theme/index`,r={...e,useThemeSync:t};export{n as name,r as provider};

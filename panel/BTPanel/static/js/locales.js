@@ -1,0 +1,1 @@
+import{n as e,t}from"./element-plus-lib.js?v=1784166457";var n=`element-plus/es/locales`,r={...t,zhCn:e};export{n as name,r as provider};

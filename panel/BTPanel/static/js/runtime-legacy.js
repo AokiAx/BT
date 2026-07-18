@@ -1,0 +1,1 @@
+System.register(["./btpanel-panel-business-runtime-lib-legacy.js?v=1784166457"],function(e,n){var s,t,i,u;return{setters:[function(e){s=e.g,t=e.l,i=e.m,u=e.y}],execute:function(){e("name","@btpanel/panel-business/runtime"),e("provider",{...t,setBusinessNavigationAdapter:u,setPanelBusinessRuntime:s,panelBusinessRouter:i})}}});

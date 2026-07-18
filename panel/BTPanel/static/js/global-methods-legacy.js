@@ -1,0 +1,1 @@
+System.register(["./btpanel-runtime-lib-legacy.js?v=1784166457"],function(e,t){var l,o,r,a,n,s;return{setters:[function(e){l=e.C,o=e.S,r=e.b,a=e.w,n=e.x,s=e.y}],execute:function(){e("name","@btpanel/runtime/global-methods"),e("provider",{...o,registerGlobalMethods:l,setGlobalMethod:a,getGlobalMethod:r,getGlobalMethods:n,clearGlobalMethods:s})}}});

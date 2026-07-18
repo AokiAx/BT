@@ -1,0 +1,1 @@
+import{Wt as e}from"./monaco-editor-lib.js?v=1784166457";var t=`monaco-editor/esm/vs/editor/contrib/documentSymbols/browser/outlineModel`,n=e;export{t as name,n as provider};

@@ -1,0 +1,1 @@
+var e=[`chrome >= 85`,`edge >= 85`,`firefox >= 79`,`safari >= 14.1`,`ios_saf >= 14.5`],t=[`chrome85`,`edge85`,`firefox79`,`safari14.1`,`ios14.5`],n=(e=[],t=[])=>e.length===t.length&&e.every((e,n)=>e===t[n]),r=r=>{let i=r.browserCompatibility;return i.baseline===`element-plus-2.5`&&i.module===`esm`&&n(i.targets,e)&&n(i.buildTarget,t)};export{r as t};

@@ -1,0 +1,1 @@
+import{$ as e,Q as t}from"./btpanel-runtime-lib.js?v=1784166457";var n=`axios`,r={...t,default:e};export{n as name,r as provider};

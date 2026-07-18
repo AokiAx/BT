@@ -1,0 +1,1 @@
+import{G as e,H as t,Q as n,V as r,n as i}from"./btpanel-panel-business-hooks-lib.js?v=1784166457";var a=`@btpanel/panel-business/hooks/tools/table/column`,o={...i,useOperate:e,useSwitch:n,useCheckbox:t,useBatchStatus:r};export{a as name,o as provider};

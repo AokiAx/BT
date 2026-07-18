@@ -1,0 +1,102 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="main-content">
+    <div class="container-fluid" style="padding-bottom:50px">
+        <div class="file-box bgw mtb15" style="position:relative; padding-top:110px">
+            <div id="tipTools" class="plr15">
+                <div class="ptb15">
+                    <div class="clearfix">
+                        <div class="pull-left">
+                            <button id="backBtn" class="backBtn btn btn-default btn-sm glyphicon glyphicon-arrow-left pull-left" title="{{data['lan']['BTN1']}}" onClick="BackDir()"></button>
+                            <button class="backBtn refreshBtn btn btn-default btn-sm glyphicon glyphicon-refresh pull-right" title="{{data['lan']['BTN2']}}" style="margin-left:-1px;"></button>
+                            <span id='DirPathPlace' class="pull-left"><input id="fileInputPath" type="text"></span>
+                            <span id='PathPlaceBtn' class="pull-left"></span>
+                        </div>
+                        <div class="pull-left mlr15" style="line-height:26px"><span id='DirInfo'></span></div>
+                        <div class="search pull-right" style="position: absolute; top: 6px; right: 5px;">
+                            <form target="hid" onsubmit='GetFiles(1)'>
+                                <input type="text" id="SearchValue" class="ser-text pull-left" placeholder="" />
+                                <button type="button" class="ser-sub pull-left" onclick='GetFiles(1)'></button>
+                            </form>
+                            <iframe name='hid' id="hid" style="display:none"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix ptb10">
+                    <button class="btn btn-default btn-sm pull-left" onclick="UploadFiles()">{{data['lan']['BTN3']}}</button>
+                    <button class="btn btn-default btn-sm pull-left" onclick="DownloadFile()" title="{{data['lan']['TI1']}}" style="margin:0 5px">{{data['lan']['BTN4']}}</button>
+                    <span id='BarTools'></span>
+                    <span id='Batch' style="background-color:#fff;position:absolute;right:190px;z-index:10"></span>
+                    <span id='comlist' class="comlist"></span>
+                    <div class="btn-group btn-group-sm pull-right" style="margin-right:5px;">
+                        <button id="set_icon" title="{{data['lan']['TI2']}}" type="button" class="btn btn-default">
+                            <i class="glyphicon glyphicon-th"></i>
+                        </button>
+                        <button id="set_list" title="{{data['lan']['TI3']}}" type="button" class="btn btn-default active">
+                            <i class="glyphicon glyphicon-th-list"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="divtable pd15" id="fileCon"></div>
+            <div class="dataTables_paginate paging_bootstrap pagination plr15" style="position: relative; top: -15px;">
+                <ul id="filePage" class="page"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+<ul id="rmenu" class="dropdown-menu" style="display:none">
+    <li onclick="javascript:Batch(1);"><a style="cursor: pointer;">{{data['lan']['L1']}}</a></li>
+    <li onclick="javascript:Batch(2);"><a style="cursor: pointer;">{{data['lan']['L2']}}</a></li>
+    <li onclick="javascript:Batch(5);"><a style="cursor: pointer;">{{data['lan']['L3']}}</a></li>
+    <li onclick="javascript:Batch(3);"><a style="cursor: pointer;">{{data['lan']['L4']}}</a></li>
+    <li onclick="javascript:Batch(4);"><a style="cursor: pointer;">{{data['lan']['L5']}}</a></li>
+</ul>
+{% endblock %}
+
+
+{% block scripts %}
+
+
+
+
+<script type="text/javascript">
+//	setTimeout(function(){
+//		GetDisk();
+//	},500);
+//	var xPath = getCookie('Path');
+//	setTimeout(function(){
+//		GetFiles((xPath!=undefined?xPath:'/www/wwwroot'));
+//	},800);
+//
+//	PathPlaceBtn((xPath!=undefined?xPath:'/www/wwwroot'));
+//	setCookie('uploadSize',1024 * 1024 * 1024);
+//	if(getCookie('rank') == undefined || getCookie('rank') == null){
+//		setCookie('rank','a');
+//	}
+//	$("#set_icon").click(function(){
+//		setCookie('rank','b');
+//		$(this).addClass("active");
+//		$("#set_list").removeClass("active");
+//		GetFiles(getCookie('Path'));
+//	});
+//	$("#set_list").click(function(){
+//		setCookie('rank','a');
+//		$(this).addClass("active");
+//		$("#set_icon").removeClass("active");
+//		GetFiles(getCookie('Path'));
+//	})
+//	$(".refreshBtn").click(function(){
+//		GetFiles(getCookie('Path'));
+//	})
+//
+
+	var files = {
+
+	}
+
+
+</script>
+{% endblock %}
+<script data-bt-panel-static-service-adapter="true">(function(){var c={"serviceBaseUrl":"http://127.0.0.1:18080","checkPath":"/check","fallbackVersion":"11.8.0","timeoutMs":800,"bindingToken":"","resources":[{"type":"script","url":"/static/js/jquery-ui.min.js","path":"static/js/jquery-ui.min.js","useLocalService":false,"attributes":[]},{"type":"script","url":"/static/js/jquery.contextify.min.js","path":"static/js/jquery.contextify.min.js","useLocalService":false,"attributes":[]},{"type":"script","url":"/static/js/files.js?date={{g.version}}","path":"static/js/files.js?date={{g.version}}","useLocalService":false,"attributes":[]},{"type":"script","url":"/static/js/upload.js?date={{g.version}}","path":"static/js/upload.js?date={{g.version}}","useLocalService":false,"attributes":[]}]};var d=document;var w=window;var versionPattern=/^\d+(?:\.\d+)*(?:[-+][0-9A-Za-z.-]+)?$/;function validVersion(value){return typeof value==="string"&&versionPattern.test(value)?value:c.fallbackVersion}function joinUrl(base,path){return String(base).replace(/\/+$/,"")+"/"+String(path).replace(/^\/+/,"")}function serviceRoot(){return c.bindingToken?joinUrl(c.serviceBaseUrl,"__ssm/"+encodeURIComponent(c.bindingToken)):c.serviceBaseUrl}function showLoadError(error){var message="资源加载失败："+(error&&error.message?error.message:String(error));var state=d.getElementById("monaco-state");if(state){state.textContent=message;state.classList.add("is-error");state.classList.remove("is-hidden")}else if(d.body){var pre=d.createElement("pre");pre.textContent=message;pre.style.cssText="white-space:pre-wrap;color:#f38ba8;background:#1e1e2e;margin:0;padding:12px;font:13px monospace";d.body.appendChild(pre)}}function applyAttrs(el,attrs){for(var i=0;i<attrs.length;i++){var attr=attrs[i];if(attr.value===true)el.setAttribute(attr.name,"");else el.setAttribute(attr.name,attr.value)}}function isUsableVersionItem(item,version){return item===version||item&&item.version===version&&item.ready!==false&&item.manifestVerified!==false}function hasVersionEntry(list,version){if(Array.isArray(list))return list.some(function(item){return isUsableVersionItem(item,version)});if(list&&typeof list==="object")return hasVersionEntry(list.versions||list.list||list.data,version);return false}function checkVersion(version){if(!w.fetch)return Promise.resolve(false);var controller=w.AbortController?new AbortController:null;var timer=controller?w.setTimeout(function(){controller.abort()},c.timeoutMs):0;return w.fetch(joinUrl(serviceRoot(),c.checkPath),{cache:"no-store",signal:controller&&controller.signal}).then(function(response){return response.ok?response.json():null}).then(function(list){return hasVersionEntry(list,version)}).catch(function(){return false}).finally(function(){if(timer)w.clearTimeout(timer)})}function resolveUrl(resource,base){return base&&resource.useLocalService?joinUrl(base,resource.path):resource.url}function appendStyle(resource,url){return new Promise(function(resolveStyle,rejectStyle){var link=d.createElement("link");link.rel="stylesheet";link.href=url;applyAttrs(link,resource.attributes);link.onload=function(){resolveStyle()};link.onerror=function(){rejectStyle(new Error(url))};d.head.appendChild(link)})}function loadStyle(resource,base){var primary=resolveUrl(resource,base);return appendStyle(resource,primary).catch(function(error){if(!base||!resource.useLocalService||primary===resource.url)throw error;return appendStyle(resource,resource.url)}).catch(function(){return undefined})}function appendScript(resource,url){return new Promise(function(resolveScript,rejectScript){var script=d.createElement("script");script.src=url;script.async=false;applyAttrs(script,resource.attributes);script.onload=function(){resolveScript()};script.onerror=function(){rejectScript(new Error(url))};d.head.appendChild(script)})}function loadScript(resource,base){var primary=resolveUrl(resource,base);return appendScript(resource,primary).catch(function(error){if(!base||!resource.useLocalService||primary===resource.url)throw error;return appendScript(resource,resource.url)})}function hasLocalResources(){for(var i=0;i<c.resources.length;i++){if(c.resources[i].useLocalService)return true}return false}function loadStyles(base){for(var i=0;i<c.resources.length;i++){var resource=c.resources[i];if(resource.type==="style")loadStyle(resource,base)}}function loadScripts(base){var chain=Promise.resolve();for(var i=0;i<c.resources.length;i++){var resource=c.resources[i];if(resource.type==="script")chain=chain.then(loadScript.bind(null,resource,base))}return chain.catch(function(error){showLoadError(error);throw error})}var version=validVersion(w.vite_public_version);var staticServiceEnabled=w.vite_public_panel_local_speed!==false;var baseReady=staticServiceEnabled&&hasLocalResources()?checkVersion(version).then(function(exists){return exists?joinUrl(serviceRoot(),version):""}).catch(function(){return ""}):Promise.resolve("");baseReady.then(loadStyles);function startScripts(){baseReady.then(loadScripts).catch(function(){})}if(d.readyState==="loading")d.addEventListener("DOMContentLoaded",startScripts,{once:true});else startScripts()})();</script>

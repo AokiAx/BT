@@ -1,0 +1,1 @@
+System.register(["./btpanel-panel-business-hooks-lib-legacy.js?v=1784166457"],function(e,t){var n,s;return{setters:[function(e){n=e.nt,s=e.tt}],execute:function(){e("name","@btpanel/panel-business/components/other/bt-ai-tips/index.vue"),e("provider",{...n,default:s})}}});

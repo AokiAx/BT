@@ -1,0 +1,1 @@
+import{c as e,h as t,o as n,s as r}from"./vue.js?v=VERSION_NUMBER";import{t as i}from"./_plugin-vue_export-helper.js?v=VERSION_NUMBER";var a={class:`free-tag`},o=i({},[[`render`,function(i,o){return t(),n(`span`,a,[...o[0]||=[r(`span`,{class:`tencent-icon`},null,-1),e(`腾讯云专版免费 `,-1)]])}],[`__scopeId`,`data-v-d2f13055`]]);export{o as default};

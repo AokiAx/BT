@@ -1,0 +1,1 @@
+System.register(["./vue-router-lib-legacy.js?v=1784166457"],function(e,t){var u,o,r,n,i;return{setters:[function(e){u=e.a,o=e.i,r=e.l,n=e.o,i=e.u}],execute:function(){e("name","vue-router"),e("provider",{...o,useRoute:r,useRouter:i,onBeforeRouteLeave:u,onBeforeRouteUpdate:n})}}});

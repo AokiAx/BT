@@ -1,0 +1,1 @@
+import{D as e,O as t,k as n}from"./btpanel-runtime-lib.js?v=1784166457";var r=`@btpanel/runtime/storage`,i={...n,getCookie:e,setCookie:t};export{r as name,i as provider};

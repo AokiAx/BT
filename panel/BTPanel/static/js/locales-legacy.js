@@ -1,0 +1,1 @@
+System.register(["./element-plus-lib-legacy.js?v=1784166457"],function(e,n){var t,s;return{setters:[function(e){t=e.n,s=e.t}],execute:function(){e("name","element-plus/es/locales"),e("provider",{...s,zhCn:t})}}});

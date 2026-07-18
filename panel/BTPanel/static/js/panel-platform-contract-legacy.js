@@ -1,0 +1,1 @@
+System.register(["./shared-legacy.js?v=1784166457","./src-legacy.js?v=1784166457"],function(e,n){var t,a;return{setters:[function(e){t=e.g},function(e){a=e.t}],execute:function(){e("name","@btpanel/panel-platform-contract"),e("provider",{...a,panelSharedContractVersion:"1",panelSharedPackages:t})}}});

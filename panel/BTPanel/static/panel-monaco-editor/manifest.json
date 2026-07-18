@@ -1,0 +1,102 @@
+{
+  "protocol": "btpanel-monaco-editor-esm-v1",
+  "name": "panel_monaco_editor",
+  "version": "0.0.0",
+  "entry": "assets/monaco-editor-entry.js?v=2026-07-15T03%3A36%3A09.301Z",
+  "styles": [
+    "assets/monaco-editor-style.css?v=2026-07-15T03%3A36%3A09.301Z"
+  ],
+  "minPanelVersion": "10.0.0",
+  "platformApiVersion": "1",
+  "sharedContractVersion": "1",
+  "requiredCapabilities": [
+    "core",
+    "request",
+    "runtime",
+    "panel-business.api-files"
+  ],
+  "requiredSharedPackages": [
+    "@vueuse/core",
+    "@xterm/addon-fit",
+    "@xterm/addon-web-links",
+    "@xterm/xterm",
+    "marked",
+    "monaco-editor",
+    "vue"
+  ],
+  "requiredSharedExports": {
+    "@vueuse/core": [
+      "useEventListener",
+      "useResizeObserver",
+      "useThrottleFn",
+      "useVirtualList"
+    ],
+    "marked": [
+      "marked"
+    ],
+    "vue": [
+      "Fragment",
+      "Teleport",
+      "Transition",
+      "TransitionGroup",
+      "computed",
+      "createApp",
+      "createBlock",
+      "createCommentVNode",
+      "createElementBlock",
+      "createElementVNode",
+      "createSlots",
+      "createStaticVNode",
+      "createTextVNode",
+      "createVNode",
+      "defineComponent",
+      "guardReactiveProps",
+      "h",
+      "inject",
+      "mergeProps",
+      "nextTick",
+      "normalizeClass",
+      "normalizeProps",
+      "normalizeStyle",
+      "onBeforeUnmount",
+      "onMounted",
+      "openBlock",
+      "provide",
+      "reactive",
+      "ref",
+      "renderList",
+      "renderSlot",
+      "resolveComponent",
+      "resolveDynamicComponent",
+      "shallowRef",
+      "toDisplayString",
+      "toValue",
+      "unref",
+      "useAttrs",
+      "useSlots",
+      "vModelCheckbox",
+      "vModelSelect",
+      "vModelText",
+      "vShow",
+      "watch",
+      "watchEffect",
+      "withCtx",
+      "withDirectives",
+      "withKeys",
+      "withModifiers"
+    ]
+  },
+  "requiredSharedDefaults": [
+    "@vueuse/core"
+  ],
+  "requiredSharedVersions": {
+    "@vueuse/core": "^14.3.0",
+    "@xterm/addon-fit": "^0.11.0",
+    "@xterm/addon-web-links": "^0.12.0",
+    "@xterm/xterm": "^6.0.0",
+    "marked": "^18.0.3",
+    "monaco-editor": "0.55.1",
+    "vue": "^3.5.0"
+  },
+  "builtAt": "2026-07-15T03:36:09.301Z"
+}

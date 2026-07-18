@@ -1,0 +1,1 @@
+import{Z as e,q as t}from"./btpanel-core-lib.js?v=1784166457";var n=`@btpanel/core/type`,r={...e,isObject:t};export{n as name,r as provider};

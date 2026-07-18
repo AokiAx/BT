@@ -1,0 +1,1 @@
+import{_ as e,p as t}from"./btpanel-runtime-lib.js?v=1784166457";var n=`@btpanel/runtime/theme`,r={...t,hexToRgb:e};export{n as name,r as provider};

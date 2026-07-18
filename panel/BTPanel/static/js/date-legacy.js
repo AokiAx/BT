@@ -1,0 +1,1 @@
+System.register(["./btpanel-core-lib-legacy.js?v=1784166457"],function(e,t){var r,n;return{setters:[function(e){r=e.f,n=e.p}],execute:function(){e("name","@btpanel/core/date"),e("provider",{...r,formatTime:n})}}});

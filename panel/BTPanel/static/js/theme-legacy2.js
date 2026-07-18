@@ -1,0 +1,1 @@
+System.register(["./btpanel-runtime-lib-legacy.js?v=1784166457"],function(e,t){var n,r;return{setters:[function(e){n=e._,r=e.p}],execute:function(){e("name","@btpanel/runtime/theme"),e("provider",{...r,hexToRgb:n})}}});

@@ -1,0 +1,1 @@
+System.register(["./element-plus-lib-legacy.js?v=1784166457"],function(e,t){var n,l,r,s,u,i,o,c;return{setters:[function(e){n=e.Gt,l=e.Jt,r=e.Kt,s=e.Wt,u=e.Xt,i=e.Yt,o=e.Zt,c=e.qt}],execute:function(){e("name","@element-plus/icons-vue"),e("provider",{...n,Search:u,Refresh:i,Plus:l,Edit:c,Delete:s,Download:r,Upload:o})}}});

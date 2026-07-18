@@ -1,0 +1,1 @@
+import{f as e,p as t}from"./btpanel-core-lib.js?v=1784166457";var n=`@btpanel/core/date`,r={...e,formatTime:t};export{n as name,r as provider};

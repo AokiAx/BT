@@ -1,0 +1,29 @@
+# 可重新下载的官方源码包（已解压到 panel/）
+panel6.zip
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# 运行时目录与本地数据
+panel/logs/*
+!panel/logs/.gitkeep
+panel/tmp/*
+!panel/tmp/.gitkeep
+panel/ssl/*
+!panel/ssl/.gitkeep
+
+# 编辑器 / 系统
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store
+Thumbs.db

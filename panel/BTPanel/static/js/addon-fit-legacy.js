@@ -1,0 +1,1 @@
+System.register(["./xterm-addon-fit-lib-legacy.js?v=1784166457"],function(t,e){var n,r;return{setters:[function(t){n=t.n,r=t.t}],execute:function(){t("name","@xterm/addon-fit"),t("provider",{...r,FitAddon:n})}}});

@@ -1,0 +1,1 @@
+import{g as e,l as t,m as n,y as r}from"./btpanel-panel-business-runtime-lib.js?v=1784166457";var i=`@btpanel/panel-business/runtime`,a={...t,setBusinessNavigationAdapter:r,setPanelBusinessRuntime:e,panelBusinessRouter:n};export{i as name,a as provider};

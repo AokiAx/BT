@@ -1,0 +1,1 @@
+System.register(["./btpanel-panel-business-components-lib-legacy.js?v=1784166457"],function(e,n){var t,s;return{setters:[function(e){t=e.A,s=e.k}],execute:function(){e("name","@btpanel/panel-business/components/extension/bt-editor"),e("provider",{...t,default:s})}}});

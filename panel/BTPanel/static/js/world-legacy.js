@@ -1,0 +1,1 @@
+System.register(["./btpanel-hooks-charts-data-lib-legacy.js?v=1784166457"],function(t,e){var a,r;return{setters:[function(t){a=t.n,r=t.r}],execute:function(){t("name","@btpanel/hooks/charts/data/world"),t("provider",{...r,default:a})}}});

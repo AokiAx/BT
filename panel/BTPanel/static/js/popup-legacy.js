@@ -1,0 +1,1 @@
+System.register(["./btpanel-panel-business-services-lib-legacy.js?v=1784166457"],function(e,n){var s,t,i;return{setters:[function(e){s=e.it,t=e.ot,i=e.st}],execute:function(){e("name","@btpanel/panel-business/services/popup"),e("provider",{...t,pluginInstallDialog:s,productPaymentDialog:i})}}});

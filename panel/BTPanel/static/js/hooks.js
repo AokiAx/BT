@@ -1,0 +1,1 @@
+import{At as e,G as t,Lt as n,Nt as r,wt as i,xt as a}from"./btpanel-hooks-lib.js?v=1784166457";var o=`@btpanel/hooks`,s={...t,useMessage:e,useDialog:n,useConfirm:r,useDataHandle:a,useLoop:i};export{o as name,s as provider};

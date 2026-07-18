@@ -1,0 +1,1 @@
+System.register(["./btpanel-panel-business-hooks-lib-legacy.js?v=1784166457"],function(e,s){var n,t;return{setters:[function(e){n=e.h,t=e.m}],execute:function(){e("name","@btpanel/panel-business/hooks/router-tabs"),e("provider",{...t,useRouterTabs:n})}}});

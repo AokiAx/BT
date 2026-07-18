@@ -1,0 +1,1 @@
+System.register(["./monaco-editor-lib-legacy.js?v=1784166457"],function(e,n){var o;return{setters:[function(e){o=e.Kt}],execute:function(){e("name","monaco-editor/esm/vs/base/common/cancellation"),e("provider",o)}}});

@@ -1,0 +1,1 @@
+System.register(["./monaco-editor-lib-legacy.js?v=1784166457"],function(e,t){var o,r,i,n,a,c,s,d,u,g;return{setters:[function(e){o=e.Bt,r=e.Ft,i=e.Ht,n=e.It,a=e.Lt,c=e.Nt,s=e.Pt,d=e.Rt,u=e.Vt,g=e.zt}],execute:function(){e("name","monaco-editor"),e("provider",{...c,editor:u,languages:i,Uri:o,Range:d,Position:a,Selection:g,MarkerSeverity:n,KeyCode:s,KeyMod:r})}}});

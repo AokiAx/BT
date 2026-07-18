@@ -1,0 +1,1 @@
+import{_t as e,at as t,ft as n,ut as r}from"./btpanel-hooks-lib.js?v=1784166457";var i=`@btpanel/ui/base`,a={...t,BtButton:e,BtIcon:n,BtLink:r};export{i as name,a as provider};

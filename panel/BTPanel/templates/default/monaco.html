@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="zh" style="color-scheme: none !important; background-color: transparent !important;">
+	<head>
+		<meta charset="utf-8" />
+		<meta content="IE=edge" />
+		<meta name="referer" content="never" />
+		<meta name="referer" content="no-referrer" />
+		<meta name="renderer" content="webkit" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Monaco Editor</title>
+		<link rel="shortcut icon" href="{{g['panel_theme']['logo']['favicon']}}" type="image/x-icon" />
+		
+		<script type="text/javascript">
+			;(function () {
+				this.globalThis || (this.globalThis = this)
+				window.__bt_panel_monaco_embedded = window.self !== window.top
+				if (window.__bt_panel_monaco_embedded) {
+					document.documentElement.dataset.monacoRuntime = "panel-remote"
+				}
+				window.__btPanelMonacoCloseFromSkeleton = function () {
+					try {
+						if (window.parent && window.parent !== window) {
+							window.parent.postMessage(
+								{
+									source: 'btpanel-monaco-editor',
+									type: 'BT_PANEL_MONACO_CLOSE'
+								},
+								window.location.origin
+							)
+							return
+						}
+						window.close()
+					} catch (error) {
+						console.error(error)
+					}
+				}
+				window.vite_public_title = "{{g.title}}"
+				window.vite_public_debug = "{{g['debug']}}"
+				window.vite_public_version = "{{session['version']}}"
+				window.vite_public_ip = "{{session['address']}}"
+				window.vite_public_brand = "{{session['brand']}}"
+				window.vite_public_product = "{{session['product']}}"
+				window.vite_public_cdn_url = "{{g.cdn_url}}"
+				window.vite_public_panel_local_speed = "{{g['panel_local_speed']}}" === "True" || "{{g['panel_local_speed']}}" === "true" || "{{g['panel_local_speed']}}" === "1"
+				window.vite_public_request_token = "{{session[g.get_csrf_html_token_key]}}"
+				window.vite_public_file_version = "%VERSION-NUMBER%"
+				window.vite_public_panel_theme = JSON.parse(
+					"{{g['panel_theme']}}"
+						.replace(/\&\#39;/g, '"')
+						.replace(/\&\#34;/g, '"')
+						.replace(/True/g, "true")
+						.replace(/False/g, "false")
+				)
+				window.vite_public_ad_hide_config = JSON.parse(
+					"{{g['ad_hide_config']}}"
+						.replace(/\&\#39;/g, '"')
+						.replace(/\&\#34;/g, '"')
+						.replace(/True/g, "true")
+						.replace(/False/g, "false")
+				)
+			})()
+		</script>
+		<style>
+			:root {
+				--monaco-state-bg: #1f232a;
+				--monaco-state-titlebar-bg: #252a32;
+				--monaco-state-activitybar-bg: #20252c;
+				--monaco-state-sidebar-bg: #242932;
+				--monaco-state-editor-bg: #1e2229;
+				--monaco-state-panel-bg: #20252d;
+				--monaco-state-statusbar-bg: #1f6feb;
+				--monaco-state-border: rgba(142, 153, 173, 0.22);
+				--monaco-state-muted: rgba(205, 214, 244, 0.54);
+				--monaco-state-fg: #e5e7eb;
+				--monaco-state-line: rgba(148, 163, 184, 0.18);
+				--monaco-state-line-strong: rgba(148, 163, 184, 0.28);
+				--monaco-state-accent: #8bb7ff;
+			}
+
+			html,
+			body,
+			#app {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				overflow: hidden;
+				background: transparent;
+			}
+
+			html,
+			body {
+				color-scheme: none !important;
+				background-color: transparent !important;
+			}
+
+			#monaco-state {
+				position: fixed;
+				inset: 0;
+				box-sizing: border-box;
+				display: grid;
+				padding: 0;
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+				font-size: 13px;
+				color: var(--monaco-state-fg);
+				background: var(--monaco-state-bg);
+				z-index: 2147483647;
+				pointer-events: auto;
+				opacity: 1;
+				transition: opacity 160ms ease;
+			}
+
+			html[data-monaco-runtime="panel-remote"] #monaco-state {
+				background: transparent;
+			}
+
+			#monaco-state.is-hiding {
+				opacity: 0;
+				pointer-events: none;
+			}
+
+			#monaco-state.is-hidden {
+				display: none;
+			}
+
+			#monaco-state.is-error {
+				color: #f38ba8;
+			}
+
+			#monaco-state.is-error::before {
+				display: none;
+			}
+
+			.monaco-state__window {
+				width: 100%;
+				height: 100%;
+				min-width: 0;
+				min-height: 0;
+				display: grid;
+				grid-template-rows: 32px minmax(0, 1fr) 22px;
+				overflow: hidden;
+				background: var(--monaco-state-editor-bg);
+				box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+			}
+
+			.monaco-state__titlebar {
+				display: grid;
+				grid-template-columns: 1fr auto;
+				align-items: center;
+				min-width: 0;
+				background: var(--monaco-state-titlebar-bg);
+				border-bottom: 1px solid var(--monaco-state-border);
+			}
+
+			.monaco-state__menus {
+				display: flex;
+				align-items: center;
+				gap: 14px;
+				min-width: 0;
+				padding: 0 12px;
+				color: var(--monaco-state-muted);
+				font-size: 12px;
+				white-space: nowrap;
+			}
+
+			.monaco-state__title {
+				color: var(--monaco-state-fg);
+				font-weight: 600;
+			}
+
+			.monaco-state__actions {
+				display: flex;
+				height: 100%;
+			}
+
+			.monaco-state__action {
+				width: 46px;
+				height: 100%;
+				display: grid;
+				place-items: center;
+				color: var(--monaco-state-muted);
+				background: transparent;
+				border: 0;
+				border-left: 1px solid rgba(255, 255, 255, 0.03);
+				cursor: pointer;
+			}
+
+			.monaco-state__action:hover,
+			.monaco-state__action:focus-visible {
+				color: #ffffff;
+				background: #c42b1c;
+				outline: 0;
+			}
+
+			.monaco-state__body {
+				min-width: 0;
+				min-height: 0;
+				display: grid;
+				grid-template-columns: 48px minmax(180px, 260px) minmax(0, 1fr);
+			}
+
+			.monaco-state__activitybar {
+				display: grid;
+				align-content: start;
+				justify-items: center;
+				gap: 12px;
+				padding: 10px 0;
+				background: var(--monaco-state-activitybar-bg);
+				border-right: 1px solid var(--monaco-state-border);
+			}
+
+			.monaco-state__activity {
+				width: 26px;
+				height: 26px;
+				box-sizing: border-box;
+				border: 1px solid var(--monaco-state-border);
+				border-radius: 6px;
+				background: linear-gradient(135deg, rgba(139, 183, 255, 0.28), rgba(148, 163, 184, 0.08));
+			}
+
+			.monaco-state__activity:nth-child(n + 2) {
+				background: rgba(148, 163, 184, 0.12);
+			}
+
+			.monaco-state__sidebar {
+				display: grid;
+				grid-template-rows: 34px minmax(0, 1fr);
+				min-width: 0;
+				background: var(--monaco-state-sidebar-bg);
+				border-right: 1px solid var(--monaco-state-border);
+			}
+
+			.monaco-state__sidebar-title {
+				display: flex;
+				align-items: center;
+				padding: 0 12px;
+				color: var(--monaco-state-muted);
+				font-size: 11px;
+				font-weight: 700;
+				letter-spacing: 0;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+			}
+
+			.monaco-state__tree {
+				display: grid;
+				align-content: start;
+				gap: 10px;
+				padding: 14px 12px;
+			}
+
+			.monaco-state__editor {
+				min-width: 0;
+				min-height: 0;
+				display: grid;
+				grid-template-rows: 34px 24px minmax(0, 1fr) 144px;
+				background: var(--monaco-state-editor-bg);
+			}
+
+			.monaco-state__tabs,
+			.monaco-state__breadcrumbs {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				min-width: 0;
+				padding: 0 12px;
+				border-bottom: 1px solid var(--monaco-state-border);
+			}
+
+			.monaco-state__tab {
+				width: 168px;
+				height: 26px;
+				border-radius: 4px 4px 0 0;
+				background: rgba(148, 163, 184, 0.13);
+			}
+
+			.monaco-state__code {
+				display: grid;
+				align-content: start;
+				gap: 10px;
+				min-width: 0;
+				padding: 22px 24px;
+			}
+
+			.monaco-state__panel {
+				display: grid;
+				grid-template-rows: 30px minmax(0, 1fr);
+				background: var(--monaco-state-panel-bg);
+				border-top: 1px solid var(--monaco-state-border);
+			}
+
+			.monaco-state__panel-tabs {
+				display: flex;
+				align-items: center;
+				gap: 16px;
+				padding: 0 12px;
+				color: var(--monaco-state-muted);
+				font-size: 12px;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+			}
+
+			.monaco-state__terminal {
+				display: grid;
+				align-content: start;
+				gap: 8px;
+				padding: 14px 16px;
+			}
+
+			.monaco-state__statusbar {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 0 10px;
+				color: rgba(255, 255, 255, 0.88);
+				background: var(--monaco-state-statusbar-bg);
+				font-size: 12px;
+			}
+
+			.monaco-state__line {
+				height: 10px;
+				width: var(--line-width, 62%);
+				border-radius: 2px;
+				background: linear-gradient(90deg, var(--monaco-state-line), var(--monaco-state-line-strong), var(--monaco-state-line));
+				background-size: 220% 100%;
+				animation: monaco-state-shimmer 1.25s ease-in-out infinite;
+			}
+
+			.monaco-state__line--accent {
+				background: linear-gradient(90deg, rgba(139, 183, 255, 0.2), rgba(139, 183, 255, 0.44), rgba(139, 183, 255, 0.2));
+				background-size: 220% 100%;
+			}
+
+			@keyframes monaco-state-shimmer {
+				0% {
+					background-position: 100% 0;
+				}
+
+				to {
+					background-position: -120% 0;
+				}
+			}
+
+			@media (max-width: 760px) {
+				.monaco-state__body {
+					grid-template-columns: 44px minmax(0, 1fr);
+				}
+
+				.monaco-state__sidebar {
+					display: none;
+				}
+
+				.monaco-state__editor {
+					grid-column: 2;
+				}
+			}
+		</style>
+	<script data-bt-panel-static-service-adapter="true">(function(){var c={"serviceBaseUrl":"http://127.0.0.1:18080","checkPath":"/check","fallbackVersion":"11.8.0","timeoutMs":800,"bindingToken":"","resources":[{"type":"style","url":"../static/panel-monaco-editor/assets/monaco-editor-style.css?v=%VERSION-NUMBER%","path":"static/panel-monaco-editor/assets/monaco-editor-style.css?v=%VERSION-NUMBER%","useLocalService":false,"attributes":[{"name":"data-bt-panel-monaco-editor-style","value":"true"}]},{"type":"script","url":"../static/js/monaco.js","path":"static/js/monaco.js","useLocalService":false,"attributes":[{"name":"type","value":"module"}]}]};var d=document;var w=window;var versionPattern=/^\d+(?:\.\d+)*(?:[-+][0-9A-Za-z.-]+)?$/;function validVersion(value){return typeof value==="string"&&versionPattern.test(value)?value:c.fallbackVersion}function joinUrl(base,path){return String(base).replace(/\/+$/,"")+"/"+String(path).replace(/^\/+/,"")}function serviceRoot(){return c.bindingToken?joinUrl(c.serviceBaseUrl,"__ssm/"+encodeURIComponent(c.bindingToken)):c.serviceBaseUrl}function showLoadError(error){var message="资源加载失败："+(error&&error.message?error.message:String(error));var state=d.getElementById("monaco-state");if(state){state.textContent=message;state.classList.add("is-error");state.classList.remove("is-hidden")}else if(d.body){var pre=d.createElement("pre");pre.textContent=message;pre.style.cssText="white-space:pre-wrap;color:#f38ba8;background:#1e1e2e;margin:0;padding:12px;font:13px monospace";d.body.appendChild(pre)}}function applyAttrs(el,attrs){for(var i=0;i<attrs.length;i++){var attr=attrs[i];if(attr.value===true)el.setAttribute(attr.name,"");else el.setAttribute(attr.name,attr.value)}}function isUsableVersionItem(item,version){return item===version||item&&item.version===version&&item.ready!==false&&item.manifestVerified!==false}function hasVersionEntry(list,version){if(Array.isArray(list))return list.some(function(item){return isUsableVersionItem(item,version)});if(list&&typeof list==="object")return hasVersionEntry(list.versions||list.list||list.data,version);return false}function checkVersion(version){if(!w.fetch)return Promise.resolve(false);var controller=w.AbortController?new AbortController:null;var timer=controller?w.setTimeout(function(){controller.abort()},c.timeoutMs):0;return w.fetch(joinUrl(serviceRoot(),c.checkPath),{cache:"no-store",signal:controller&&controller.signal}).then(function(response){return response.ok?response.json():null}).then(function(list){return hasVersionEntry(list,version)}).catch(function(){return false}).finally(function(){if(timer)w.clearTimeout(timer)})}function resolveUrl(resource,base){return base&&resource.useLocalService?joinUrl(base,resource.path):resource.url}function appendStyle(resource,url){return new Promise(function(resolveStyle,rejectStyle){var link=d.createElement("link");link.rel="stylesheet";link.href=url;applyAttrs(link,resource.attributes);link.onload=function(){resolveStyle()};link.onerror=function(){rejectStyle(new Error(url))};d.head.appendChild(link)})}function loadStyle(resource,base){var primary=resolveUrl(resource,base);return appendStyle(resource,primary).catch(function(error){if(!base||!resource.useLocalService||primary===resource.url)throw error;return appendStyle(resource,resource.url)}).catch(function(){return undefined})}function appendScript(resource,url){return new Promise(function(resolveScript,rejectScript){var script=d.createElement("script");script.src=url;script.async=false;applyAttrs(script,resource.attributes);script.onload=function(){resolveScript()};script.onerror=function(){rejectScript(new Error(url))};d.head.appendChild(script)})}function loadScript(resource,base){var primary=resolveUrl(resource,base);return appendScript(resource,primary).catch(function(error){if(!base||!resource.useLocalService||primary===resource.url)throw error;return appendScript(resource,resource.url)})}function hasLocalResources(){for(var i=0;i<c.resources.length;i++){if(c.resources[i].useLocalService)return true}return false}function loadStyles(base){for(var i=0;i<c.resources.length;i++){var resource=c.resources[i];if(resource.type==="style")loadStyle(resource,base)}}function loadScripts(base){var chain=Promise.resolve();for(var i=0;i<c.resources.length;i++){var resource=c.resources[i];if(resource.type==="script")chain=chain.then(loadScript.bind(null,resource,base))}return chain.catch(function(error){showLoadError(error);throw error})}var version=validVersion(w.vite_public_version);var staticServiceEnabled=w.vite_public_panel_local_speed!==false;var baseReady=staticServiceEnabled&&hasLocalResources()?checkVersion(version).then(function(exists){return exists?joinUrl(serviceRoot(),version):""}).catch(function(){return ""}):Promise.resolve("");baseReady.then(loadStyles);function startScripts(){baseReady.then(loadScripts).catch(function(){})}if(d.readyState==="loading")d.addEventListener("DOMContentLoaded",startScripts,{once:true});else startScripts()})();</script></head>
+	<body style="color-scheme: none !important; background-color: transparent !important;">
+		<div id="app"></div>
+		<div id="monaco-state" data-monaco-startup-skeleton="true" role="status" aria-live="polite" aria-busy="true">
+			<div class="monaco-state__window" aria-label="Monaco Editor 正在加载">
+				<div class="monaco-state__titlebar">
+					<div class="monaco-state__menus">
+						<span class="monaco-state__title">Monaco Editor</span>
+						<span>文件</span>
+						<span>编辑</span>
+						<span>视图</span>
+						<span>终端</span>
+						<span>正在加载 Monaco Editor</span>
+					</div>
+					<div class="monaco-state__actions">
+						<button class="monaco-state__action" data-monaco-startup-close type="button" aria-label="关闭编辑器" title="关闭编辑器" onclick="window.__btPanelMonacoCloseFromSkeleton && window.__btPanelMonacoCloseFromSkeleton()">
+							&times;
+						</button>
+					</div>
+				</div>
+				<div class="monaco-state__body">
+					<div class="monaco-state__activitybar" aria-hidden="true">
+						<span class="monaco-state__activity"></span>
+						<span class="monaco-state__activity"></span>
+						<span class="monaco-state__activity"></span>
+						<span class="monaco-state__activity"></span>
+					</div>
+					<aside class="monaco-state__sidebar" aria-hidden="true">
+						<div class="monaco-state__sidebar-title">资源管理器</div>
+						<div class="monaco-state__tree">
+							<span class="monaco-state__line monaco-state__line--accent" style="--line-width: 72%"></span>
+							<span class="monaco-state__line" style="--line-width: 88%"></span>
+							<span class="monaco-state__line" style="--line-width: 64%; margin-left: 14px"></span>
+							<span class="monaco-state__line" style="--line-width: 78%; margin-left: 14px"></span>
+							<span class="monaco-state__line" style="--line-width: 58%; margin-left: 28px"></span>
+							<span class="monaco-state__line" style="--line-width: 82%"></span>
+						</div>
+					</aside>
+					<main class="monaco-state__editor" aria-hidden="true">
+						<div class="monaco-state__tabs">
+							<span class="monaco-state__tab"></span>
+							<span class="monaco-state__line" style="--line-width: 96px"></span>
+						</div>
+						<div class="monaco-state__breadcrumbs">
+							<span class="monaco-state__line" style="--line-width: 86px"></span>
+							<span class="monaco-state__line" style="--line-width: 120px"></span>
+							<span class="monaco-state__line" style="--line-width: 70px"></span>
+						</div>
+						<div class="monaco-state__code">
+							<span class="monaco-state__line" style="--line-width: 52%"></span>
+							<span class="monaco-state__line" style="--line-width: 68%"></span>
+							<span class="monaco-state__line" style="--line-width: 43%"></span>
+							<span class="monaco-state__line" style="--line-width: 74%"></span>
+							<span class="monaco-state__line" style="--line-width: 61%"></span>
+							<span class="monaco-state__line" style="--line-width: 48%"></span>
+							<span class="monaco-state__line" style="--line-width: 70%"></span>
+							<span class="monaco-state__line" style="--line-width: 56%"></span>
+						</div>
+						<div class="monaco-state__panel">
+							<div class="monaco-state__panel-tabs">
+								<span>问题</span>
+								<span>输出</span>
+								<span>终端</span>
+							</div>
+							<div class="monaco-state__terminal">
+								<span class="monaco-state__line" style="--line-width: 36%"></span>
+								<span class="monaco-state__line" style="--line-width: 62%"></span>
+								<span class="monaco-state__line monaco-state__line--accent" style="--line-width: 44%"></span>
+							</div>
+						</div>
+					</main>
+				</div>
+				<div class="monaco-state__statusbar">
+					<span>正在连接工作区</span>
+					<span>UTF-8&nbsp;&nbsp;LF&nbsp;&nbsp;TypeScript</span>
+				</div>
+			</div>
+		</div>
+		
+	</body>
+</html>

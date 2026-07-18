@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="robots" content="noindex,nofollow">
+		<title>初始化宝塔软件</title>
+		
+		
+		<style>html,body,div,span,p,a,table,input,ul,li,*{margin:0;padding:0;font-size:12px}body{background-color:#444;height:100%;min-height:768px}.main{height:900px;width:100%;background-size:cover;position:relative;z-index:0}.warp{background-color:#f6f6f6;width:700px;height:370px;position:absolute;top:50%;left:50%;margin-top:-340px;margin-left:-350px;box-shadow:0 0 10px #666;border-radius:3px}.warp .logo{background:url(../images/logo.png) no-repeat;height:37px;left:50%;margin-left:-52px;position:absolute;top:-67px;width:103px}.warp .title{height:70px;line-height:70px;text-align:center;font-size:26px;border-bottom:#ababab 1px solid;margin:0 20px;color:#444}.warp .form{padding:20px}fieldset{background-color:#fff;padding:10px;margin-bottom:20px;border:#ccc 1px solid}fieldset legend{padding:0 5px;font-size:14px;color:#000}fieldset p{line-height:40px;color:#555}fieldset p .tit{display:inline-block;margin-right:10px;text-align:right;width:100px}fieldset input{margin:0 7px;height:28px;border:#ccc 1px solid;width:200px;padding:0 5px;border-radius:2px;-webkit-border-radius:2px;-moz-border-radius:2px;-webkit-transition:border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;-o-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s}fieldset input:focus,fieldset input:active{border:#66afe9 1px solid;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)}.text{background-color:#f3f3f3;border:1px solid #ccc;border-radius:2px;display:inline-block;height:26px;line-height:28px;margin:0 7px;padding:0 5px;width:188px}.submit-btn{background-color:#20a53a;border:1px solid #20a53a;color:#fff;cursor:pointer;font-size:16px;height:42px;line-height:35px;text-align:center;width:330px;margin:12px 164px;border-radius:3px}.submit-btn:hover{background-color:#10952a;border:1px solid #10952a}.success{background-color:#f6f6f6;border-radius:5px;box-shadow:0 0 140px #556789;height:140px;left:50%;margin-left:-150px;margin-top:-70px;position:absolute;text-align:center;top:50%;width:300px}.success p{font-size:20px;line-height:90px}.success a{color:#3385d6;font-size:16px;text-decoration:none}.copyright{color:#9d9d9d;text-align:center;margin-top:-50px;position:relative;z-index:3}.copyright a{color:#9d9d9d;text-decoration:none}</style>
+	<script data-bt-panel-static-service-adapter="true">(function(){var c={"serviceBaseUrl":"http://127.0.0.1:18080","checkPath":"/check","fallbackVersion":"11.8.0","timeoutMs":800,"bindingToken":"","resources":[{"type":"script","url":"/static/js/jquery-2.2.4.min.js","path":"static/js/jquery-2.2.4.min.js","useLocalService":false,"attributes":[{"name":"type","value":"text/javascript"}]},{"type":"script","url":"/static/layer/layer.js","path":"static/layer/layer.js","useLocalService":false,"attributes":[{"name":"type","value":"text/javascript"}]}]};var d=document;var w=window;var versionPattern=/^\d+(?:\.\d+)*(?:[-+][0-9A-Za-z.-]+)?$/;function validVersion(value){return typeof value==="string"&&versionPattern.test(value)?value:c.fallbackVersion}function joinUrl(base,path){return String(base).replace(/\/+$/,"")+"/"+String(path).replace(/^\/+/,"")}function serviceRoot(){return c.bindingToken?joinUrl(c.serviceBaseUrl,"__ssm/"+encodeURIComponent(c.bindingToken)):c.serviceBaseUrl}function showLoadError(error){var message="资源加载失败："+(error&&error.message?error.message:String(error));var state=d.getElementById("monaco-state");if(state){state.textContent=message;state.classList.add("is-error");state.classList.remove("is-hidden")}else if(d.body){var pre=d.createElement("pre");pre.textContent=message;pre.style.cssText="white-space:pre-wrap;color:#f38ba8;background:#1e1e2e;margin:0;padding:12px;font:13px monospace";d.body.appendChild(pre)}}function applyAttrs(el,attrs){for(var i=0;i<attrs.length;i++){var attr=attrs[i];if(attr.value===true)el.setAttribute(attr.name,"");else el.setAttribute(attr.name,attr.value)}}function isUsableVersionItem(item,version){return item===version||item&&item.version===version&&item.ready!==false&&item.manifestVerified!==false}function hasVersionEntry(list,version){if(Array.isArray(list))return list.some(function(item){return isUsableVersionItem(item,version)});if(list&&typeof list==="object")return hasVersionEntry(list.versions||list.list||list.data,version);return false}function checkVersion(version){if(!w.fetch)return Promise.resolve(false);var controller=w.AbortController?new AbortController:null;var timer=controller?w.setTimeout(function(){controller.abort()},c.timeoutMs):0;return w.fetch(joinUrl(serviceRoot(),c.checkPath),{cache:"no-store",signal:controller&&controller.signal}).then(function(response){return response.ok?response.json():null}).then(function(list){return hasVersionEntry(list,version)}).catch(function(){return false}).finally(function(){if(timer)w.clearTimeout(timer)})}function resolveUrl(resource,base){return base&&resource.useLocalService?joinUrl(base,resource.path):resource.url}function appendStyle(resource,url){return new Promise(function(resolveStyle,rejectStyle){var link=d.createElement("link");link.rel="stylesheet";link.href=url;applyAttrs(link,resource.attributes);link.onload=function(){resolveStyle()};link.onerror=function(){rejectStyle(new Error(url))};d.head.appendChild(link)})}function loadStyle(resource,base){var primary=resolveUrl(resource,base);return appendStyle(resource,primary).catch(function(error){if(!base||!resource.useLocalService||primary===resource.url)throw error;return appendStyle(resource,resource.url)}).catch(function(){return undefined})}function appendScript(resource,url){return new Promise(function(resolveScript,rejectScript){var script=d.createElement("script");script.src=url;script.async=false;applyAttrs(script,resource.attributes);script.onload=function(){resolveScript()};script.onerror=function(){rejectScript(new Error(url))};d.head.appendChild(script)})}function loadScript(resource,base){var primary=resolveUrl(resource,base);return appendScript(resource,primary).catch(function(error){if(!base||!resource.useLocalService||primary===resource.url)throw error;return appendScript(resource,resource.url)})}function hasLocalResources(){for(var i=0;i<c.resources.length;i++){if(c.resources[i].useLocalService)return true}return false}function loadStyles(base){for(var i=0;i<c.resources.length;i++){var resource=c.resources[i];if(resource.type==="style")loadStyle(resource,base)}}function loadScripts(base){var chain=Promise.resolve();for(var i=0;i<c.resources.length;i++){var resource=c.resources[i];if(resource.type==="script")chain=chain.then(loadScript.bind(null,resource,base))}return chain.catch(function(error){showLoadError(error);throw error})}var version=validVersion(w.vite_public_version);var staticServiceEnabled=w.vite_public_panel_local_speed!==false;var baseReady=staticServiceEnabled&&hasLocalResources()?checkVersion(version).then(function(exists){return exists?joinUrl(serviceRoot(),version):""}).catch(function(){return ""}):Promise.resolve("");baseReady.then(loadStyles);function startScripts(){baseReady.then(loadScripts).catch(function(){})}if(d.readyState==="loading")d.addEventListener("DOMContentLoaded",startScripts,{once:true});else startScripts()})();</script></head>
+	<body>
+		<div class="main">
+		{% if data['status'] %}
+			<div class="warp">
+				<div class="title">初始化宝塔Linux面板</div>
+				<form class="form" action="/install?action=install" method="post" onsubmit="return checkSubmit()">
+					<fieldset>
+						<legend>管理员设置</legend>
+						<p><span class="tit">用户名</span><input type="text" name="bt_username" value="{{data['username']}}" /> *请设置管理员名称</p>
+						<p><span class="tit">管理密码</span><input type="password" name="bt_password1" value="" /> *请设置管理员密码</p>
+						<p><span class="tit">重复密码 </span><input type="password" name="bt_password2" value="" /> *再输一次管理员密码</p>
+					</fieldset>
+					<input class="submit-btn" type="submit" value="确定" />
+				</form>
+			</div>
+		{% else %}
+			<div class="success">
+			<p>宝塔Linux面板初始化成功</p>
+			<a href="/login">登陆页面</a>
+			</div>
+        {% endif %}
+		</div>
+		<div class="copyright">Copyright © 2014-2099 <a href="http://www.bt.cn" target="_blank">宝塔</a>|让你更简单的使用服务器(<a href="http://www.bt.cn" target="_blank">www.bt.cn</a>) All Rights Reserved</div>
+		<script>
+			function checkSubmit(){
+				var username = $("input[name='bt_username']").val();
+				var password1 = $("input[name='bt_password1']").val();
+				var password2 = $("input[name='bt_password2']").val();
+				if(username == '' || password1 == ''){
+					layer.msg('用户名或密码不能为空!',{icon:5});
+					return false;
+				}
+
+				if(password1 != password2){
+					layer.msg('两次输入的密码不一致，请重新输入!',{icon:5});
+					return false;
+				}
+				layer.msg('正在处理...',{icon:16,time:0});
+				return true;
+			}
+			var main = $(".main");
+			$(window).resize(function () {
+			  var wh = $(window).height();
+			  main.height(wh);
+			}).resize();
+		</script>
+	</body>
+</html>

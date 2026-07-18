@@ -1,0 +1,1 @@
+System.register(["./rolldown-runtime-legacy.js?v=1784166457","./btpanel-hooks-lib-legacy.js?v=1784166457"],function(e,t){var n,r,o;return{setters:[function(e){n=e.r},function(e){r=e.j}],execute:function(){o=n(r()),e("name","qrcode"),e("provider",{...o,default:o.default})}}});

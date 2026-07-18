@@ -1,0 +1,1 @@
+import{St as e,xt as t}from"./btpanel-panel-business-components-lib.js?v=1784166457";var n=`@btpanel/panel-business/components/extension/bt-log/index.vue`,r={...e,default:t};export{n as name,r as provider};

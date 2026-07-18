@@ -1,0 +1,1 @@
+import'data:text/javascript,"static/js/index.js?v=1784166457";if(!import.meta.resolve)throw Error("import.meta.resolve not supported")';export function __vite_legacy_guard(){import.meta.url,import(`_`).catch(()=>1),(async function*(){})().next()}import"./main.js?v=1784166457";

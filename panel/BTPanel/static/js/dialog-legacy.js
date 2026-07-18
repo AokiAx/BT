@@ -1,0 +1,1 @@
+System.register(["./btpanel-hooks-lib-legacy.js?v=1784166457"],function(e,t){var o,n;return{setters:[function(e){o=e.It,n=e.Pt}],execute:function(){e("name","@btpanel/hooks/feedback/dialog"),e("provider",{...o,DialogHost:n})}}});

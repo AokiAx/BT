@@ -1,0 +1,1 @@
+System.register(["./btpanel-hooks-lib-legacy.js?v=1784166457"],function(e,s){var t,n,a,o;return{setters:[function(e){t=e.At,n=e.Dt,a=e.Ot,o=e.kt}],execute:function(){e("name","@btpanel/hooks/feedback/message"),e("provider",{...a,Message:n,useLoading:o,useMessage:t})}}});

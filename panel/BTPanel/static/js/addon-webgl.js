@@ -1,0 +1,1 @@
+import{n as e,t}from"./xterm-addon-webgl-lib.js?v=1784166457";var n=`@xterm/addon-webgl`,r={...t,WebglAddon:e};export{n as name,r as provider};

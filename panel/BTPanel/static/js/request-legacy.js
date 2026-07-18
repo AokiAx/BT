@@ -1,0 +1,1 @@
+System.register(["./btpanel-request-lib-legacy.js?v=1784166457"],function(e,t){var r,s,n,u;return{setters:[function(e){r=e.W,s=e.a,n=e.q,u=e.t}],execute:function(){e("name","@btpanel/request"),e("provider",{...u,useAxios:n,createAxios:r,useSocket:s})}}});

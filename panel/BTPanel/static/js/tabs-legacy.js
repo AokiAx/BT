@@ -1,0 +1,1 @@
+System.register(["./btpanel-hooks-lib-legacy.js?v=1784166457"],function(e,t){var n,s;return{setters:[function(e){n=e.K,s=e.q}],execute:function(){e("name","@btpanel/hooks/tabs"),e("provider",{...n,useTabs:s})}}});

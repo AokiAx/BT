@@ -1,0 +1,1 @@
+import{n as e,t}from"./xterm-core-lib.js?v=1784166457";var n=`@xterm/xterm`,r={...e,Terminal:t};export{n as name,r as provider};

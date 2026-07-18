@@ -1,0 +1,1 @@
+import{n as e,t}from"./vendor.js?v=1784166457";var n=`pinia-plugin-persistedstate`,r={...t,default:e};export{n as name,r as provider};

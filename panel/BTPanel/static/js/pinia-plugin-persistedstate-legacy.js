@@ -1,0 +1,1 @@
+System.register(["./vendor-legacy.js?v=1784166457"],function(e,t){var n,r;return{setters:[function(e){n=e.n,r=e.t}],execute:function(){e("name","pinia-plugin-persistedstate"),e("provider",{...r,default:n})}}});

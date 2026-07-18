@@ -1,0 +1,1 @@
+import{Gt as e}from"./monaco-editor-lib.js?v=1784166457";var t=`monaco-editor/esm/vs/editor/common/services/languageFeatures`,n=e;export{t as name,n as provider};

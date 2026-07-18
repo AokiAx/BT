@@ -1,0 +1,1 @@
+import{Kt as e}from"./monaco-editor-lib.js?v=1784166457";var t=`monaco-editor/esm/vs/base/common/cancellation`,n=e;export{t as name,n as provider};

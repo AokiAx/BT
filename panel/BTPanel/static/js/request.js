@@ -1,0 +1,1 @@
+import{W as e,a as t,q as n,t as r}from"./btpanel-request-lib.js?v=1784166457";var i=`@btpanel/request`,a={...r,useAxios:n,createAxios:e,useSocket:t};export{i as name,a as provider};
