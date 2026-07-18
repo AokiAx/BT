@@ -91,7 +91,8 @@ export PANEL_ZIP_URL=""
 
 chmod +x install_panel.sh
 echo "开始安装面板（纯净包）..."
-bash install_panel.sh "${INSTALL_EDITION}"
+# -y 跳过交互确认，否则 curl|bash 会卡在 y/n
+bash install_panel.sh -y "${INSTALL_EDITION}"
 
 echo ""
 echo "============================================================"
