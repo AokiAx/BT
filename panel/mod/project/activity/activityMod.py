@@ -123,6 +123,8 @@ class main:
 
     # 检查任务状态
     def check_task_status(self, response):
+        # 已关闭活动/拉新任务推广
+        return
         # 检查是否绑定了官网账号
         if not os.path.exists("/www/server/panel/data/userInfo.json"):
             return

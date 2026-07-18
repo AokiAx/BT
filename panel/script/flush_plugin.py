@@ -45,8 +45,12 @@ def flush_cache():
     try:
         # start_time = time.time()
         res = PluginLoader.get_plugin_list(1)
+        # 已删除付费推荐：固定写空列表，不下载远端
         spath = '{}/data/pay_type.json'.format(public.get_panel_path())
-        public.downloadFile(public.get_url() + '/install/lib/pay_type.json', spath)
+        try:
+            public.writeFile(spath, '[]')
+        except Exception:
+            pass
         import plugin_deployment
         plugin_deployment.plugin_deployment().GetCloudList(None)
 

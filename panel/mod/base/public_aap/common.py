@@ -5944,9 +5944,13 @@ def stop_status_mvore():
 
 
 def is_error_path():
-    if os.path.exists("/www/server/panel/data/error_pl.pl"):
-        stop_status_mvore()
-        return True
+    # 纯净版：忽略云端账号异常封锁页
+    try:
+        err = "/www/server/panel/data/error_pl.pl"
+        if os.path.exists(err):
+            os.remove(err)
+    except Exception:
+        pass
     return False
 
 
@@ -7370,12 +7374,21 @@ def get_improvement():
         @name 获取用户体验改进计划状态
         @author hwliang
         @return bool
+        纯净版：固定关闭
     '''
     tip_file = '{}/data/improvement.pl'.format(get_panel_path())
     tip_file_set = '{}/data/is_set_improvement.pl'.format(get_panel_path())
     if not os.path.exists(tip_file_set):
-        return True
-    return os.path.exists(tip_file)
+        try:
+            writeFile(tip_file_set, '1')
+        except Exception:
+            pass
+    if os.path.exists(tip_file):
+        try:
+            os.remove(tip_file)
+        except Exception:
+            pass
+    return False
 
 
 def is_spider():

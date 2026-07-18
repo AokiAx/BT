@@ -153,11 +153,10 @@ class main(panelBase):
             data['migration'] = True
         else:
             data['migration'] = False
-        # 判断是否隐藏广告和企业版标识
-        if os.path.exists('/www/server/panel/data/hide_ad.pl'):
-            data['hide_ad'] = True
-        else:
-            data['hide_ad'] = False
+        # 固定关闭广告与推荐/工单推广
+        data['hide_ad'] = True
+        data['show_recommend'] = False
+        data['show_workorder'] = False
         data['o'] = public.get_oem_name()
         from webauthn_util_compatibility import WebAuthn
         data['passkey_status'] = WebAuthn.is_enabled()
@@ -166,6 +165,8 @@ class main(panelBase):
         return data
 
     def get_pd(self, get):
+        # 已移除升级/续费推广 HTML（不伪造授权）
+        return '', -1, -1
         from BTPanel import cache
         tmp = -1
         try:

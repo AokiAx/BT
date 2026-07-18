@@ -1573,9 +1573,36 @@ Install_Bt(){
 	echo "正在下载面板文件,请稍等..................."
 	echo "=============================================="
 
-	#Download_File ${download_Url} ${backup_Url} "/install/src/panel6.zip" "panel.zip"
-	wget -O panel.zip ${download_Url}/install/src/panel6.zip -T 15
-	#wget -O panel.zip ${download_Url}/install/src/panel-lts.zip -T 15
+	# 纯净版面板包优先级：
+	# 1) LOCAL_PANEL_ZIP 本地路径
+	# 2) /root/panel-pure.zip 或 ./panel-pure.zip
+	# 3) PANEL_ZIP_URL 远程（raw.githubusercontent.com / Release / 任意直链）
+	# 4) 回退官方 panel6.zip
+	# 例：PANEL_ZIP_URL=https://raw.githubusercontent.com/USER/REPO/main/panel-pure.zip bash install_panel.sh btg26
+	if [ -n "${LOCAL_PANEL_ZIP}" ] && [ -f "${LOCAL_PANEL_ZIP}" ]; then
+		echo "使用本地纯净面板包: ${LOCAL_PANEL_ZIP}"
+		\cp -f "${LOCAL_PANEL_ZIP}" panel.zip
+	elif [ -f "/root/panel-pure.zip" ]; then
+		echo "使用本地纯净面板包: /root/panel-pure.zip"
+		\cp -f /root/panel-pure.zip panel.zip
+	elif [ -f "./panel-pure.zip" ]; then
+		echo "使用本地纯净面板包: ./panel-pure.zip"
+		\cp -f ./panel-pure.zip panel.zip
+	elif [ -n "${PANEL_ZIP_URL}" ]; then
+		echo "从远程下载纯净面板包: ${PANEL_ZIP_URL}"
+		if command -v curl >/dev/null 2>&1; then
+			curl -fL --connect-timeout 20 --retry 3 -o panel.zip "${PANEL_ZIP_URL}" || wget -O panel.zip "${PANEL_ZIP_URL}" -T 60
+		else
+			wget -O panel.zip "${PANEL_ZIP_URL}" -T 60
+		fi
+		if [ ! -s panel.zip ]; then
+			Red_Error "ERROR: Failed to download pure panel zip" "ERROR: 纯净面板包下载失败，请检查 PANEL_ZIP_URL"
+		fi
+	else
+		#Download_File ${download_Url} ${backup_Url} "/install/src/panel6.zip" "panel.zip"
+		wget -O panel.zip ${download_Url}/install/src/panel6.zip -T 15
+		#wget -O panel.zip ${download_Url}/install/src/panel-lts.zip -T 15
+	fi
 
 	if [ -f "${setup_path}/server/panel/data/default.db" ];then
 		if [ -d "/${setup_path}/server/panel/old_data" ];then

@@ -208,86 +208,63 @@ class config:
         else:
             return public.returnMsg(False, '发送失败')
 
+    def _ad_hide_all_keys(self):
+        """广告位配置 key 列表。True = 隐藏该广告/推广入口。"""
+        return [
+            "menuHost", "menuMail", "menuWaf",
+            "homeHeaderTooltip", "homeOverview", "homeSoft",
+            "homeDisk", "homeProcess", "siteScan", "siteSafe",
+            "siteTableWafIcon", "siteTableQuota", "siteTableTotal", "siteTableWaf", "siteTableDayStatistic",
+            "siteConfigSync", "siteConfigAuth", "siteConfigPhp", "siteConfigTamper",
+            "siteConfigSafe", "siteConfigLog", "siteConfigNode", "siteMonitor",
+            "ftpLog", "ftpTableLog", "ftpTableQuota", "databaseTableBackup",
+            "controlDaily", "firewallMalicious", "firewallSshLog", "firewallSshAccount",
+            "firewallSshReinforce", "firewallServerSsh", "firewallSafeDetect",
+            "firewallKeyword", "firewallPhp", "firewallIntrusion", "firewallFixed",
+            "firewallScan", "fileTamper", "fileSync", "fileCloud", "fileDiskAnalysis",
+            "logIp", "logSsh", "crontabBackup"
+        ]
+
+    def _default_ad_hide_config(self, hide=True):
+        return {key: bool(hide) for key in self._ad_hide_all_keys()}
+
+    def _ensure_promo_disabled_flags(self):
+        """关闭软件推荐、工单推广、评价弹窗、全局广告、体验改善计划。"""
+        panel_path = public.get_panel_path()
+        for name in (
+            'hide_ad.pl',
+            'not_recommend.pl',
+            'not_workorder.pl',
+            'not_evaluate.pl',
+            'recommend_show.pl',
+            'is_set_improvement.pl',
+        ):
+            path = '{}/data/{}'.format(panel_path, name)
+            if not os.path.exists(path):
+                public.writeFile(path, 'True')
+        # 体验改善计划：标记已设置且关闭（删除 improvement.pl）
+        improvement = '{}/data/improvement.pl'.format(panel_path)
+        if os.path.exists(improvement):
+            try:
+                os.remove(improvement)
+            except Exception:
+                pass
+
     # 获取广告隐藏配置
     def get_ad_hide_config(self, get):
-        if not os.path.exists(self.__ad_hide_config):
-            default_config = {
-                "menuHost": False,
-                "menuMail": False,
-                "menuWaf": False,
-                # "homeHeaderPay": False,
-                "homeHeaderTooltip": False,
-                "homeOverview": False,
-                "homeSoft": False,
-                # "homeAuth": False,
-                "homeDisk": False,
-                "homeProcess": False,
-                # "tab": False,
-                "siteScan": False,
-                "siteSafe": False,
-                "siteTableWafIcon": False,
-                "siteTableQuota": False,
-                "siteTableTotal": False,
-                "siteTableWaf": False,
-                "siteTableDayStatistic": False,
-                "siteConfigSync": False,
-                "siteConfigAuth": False,
-                "siteConfigPhp": False,
-                "siteConfigTamper": False,
-                "siteConfigSafe": False,
-                "siteConfigLog": False,
-                "siteConfigNode": False,
-                "siteMonitor": False,
-                "ftpLog": False,
-                "ftpTableLog": False,
-                "ftpTableQuota": False,
-                "databaseTableBackup": False,
-                "controlDaily": False,
-                "firewallMalicious": False,
-                "firewallSshLog": False,
-                "firewallSshAccount": False,
-                "firewallSshReinforce": False,
-                "firewallServerSsh": False,
-                "firewallSafeDetect": False,
-                "firewallKeyword": False,
-                "firewallPhp": False,
-                "firewallIntrusion": False,
-                "firewallFixed": False,
-                "firewallScan": False,
-                "fileTamper": False,
-                "fileSync": False,
-                "fileCloud": False,
-                "fileDiskAnalysis": False,
-                "logIp": False,
-                "logSsh": False,
-                "crontabBackup": False
-            }
-            public.writeFile(self.__ad_hide_config, json.dumps(default_config))
-            return default_config
-        
+        # 固定隐藏全部广告/付费推广位
+        self._ensure_promo_disabled_flags()
+        default_config = self._default_ad_hide_config(hide=True)
         try:
-            config = json.loads(public.ReadFile(self.__ad_hide_config))
-            return config
-        except:
-            return public.returnMsg(False, '配置文件解析失败')
+            public.writeFile(self.__ad_hide_config, json.dumps(default_config))
+        except Exception:
+            pass
+        return default_config
 
     # 设置广告隐藏配置
     def set_ad_hide_config(self, get):
       # "homeHeaderPay", "tab" , "homeAuth"
-        all_keys = [
-            "menuHost", "menuMail", "menuWaf",
-            "homeHeaderTooltip", "homeOverview", "homeSoft", 
-            "homeDisk", "homeProcess", "siteScan", "siteSafe", 
-            "siteTableWafIcon", "siteTableQuota", "siteTableTotal", "siteTableWaf", "siteTableDayStatistic",
-            "siteConfigSync", "siteConfigAuth", "siteConfigPhp", "siteConfigTamper", 
-            "siteConfigSafe", "siteConfigLog", "siteConfigNode", "siteMonitor", 
-            "ftpLog", "ftpTableLog", "ftpTableQuota", "databaseTableBackup", 
-            "controlDaily", "firewallMalicious", "firewallSshLog", "firewallSshAccount", 
-            "firewallSshReinforce", "firewallServerSsh", "firewallSafeDetect", 
-            "firewallKeyword", "firewallPhp", "firewallIntrusion", "firewallFixed", 
-            "firewallScan", "fileTamper", "fileSync", "fileCloud", "fileDiskAnalysis",
-            "logIp", "logSsh", "crontabBackup"
-        ]
+        all_keys = self._ad_hide_all_keys()
         
         # 创建新配置对象，覆盖旧配置，避免缓存问题
         new_config = {}
@@ -2037,7 +2014,7 @@ class config:
         data['distribution'] = public.get_linux_distribution()
         data['request_iptype'] = self.get_request_iptype()
         data['request_type'] = self.get_request_type()
-        data['improvement'] = public.get_improvement()
+        data['improvement'] = False  # 纯净版：体验改善计划关闭
         data['isSetup'] = True
         data['ftpPort'] = int(self.get_ftp_port())
         data['basic_auth'] = self.get_basic_auth_stat(None)
@@ -2526,14 +2503,12 @@ class config:
             public.writeFile(pfile, 'True')
         return public.returnMsg(True, '设置成功!')
 
-    # 是否显示评价功能
+    # 是否显示评价功能（纯净版固定关闭，不允许再打开）
     def show_evaluate(self, get):
         pfile = 'data/not_evaluate.pl'
-        if os.path.exists(pfile):
-            os.remove(pfile)
-        else:
+        if not os.path.exists(pfile):
             public.writeFile(pfile, 'True')
-        return public.returnMsg(True, '设置成功!')
+        return public.returnMsg(True, '评价功能已关闭')
 
     # 获取菜单列表
     def get_menu_list_old(self, get):
@@ -3829,26 +3804,17 @@ class config:
     def set_improvement(self, get):
         '''
             @name 设置用户体验改进计划开关
-            @author hwliang
-            @return dict
+            纯净版：固定关闭，忽略开启请求
         '''
-
         tip_file = '{}/data/improvement.pl'.format(public.get_panel_path())
-        if not 'status' in get: return public.returnMsg(False, '必需要有status参数!')
-
-        status = 1 if int(get.status) else 0
-        if status:
-            public.WriteFile(tip_file, '1')
-        else:
-            if os.path.exists(tip_file):
-                os.remove(tip_file)
         tip_file_set = '{}/data/is_set_improvement.pl'.format(public.get_panel_path())
-        public.WriteFile(tip_file_set, '')
-        status_msg = ['关闭', '开启']
-        msg = '已[{}]用户体验改进计划'.format(status_msg[status])
-
-        public.WriteLog('面板设置', msg)
-        return public.returnMsg(True, msg)
+        if os.path.exists(tip_file):
+            try:
+                os.remove(tip_file)
+            except Exception:
+                pass
+        public.WriteFile(tip_file_set, '1')
+        return public.returnMsg(True, '用户体验改进计划已关闭')
 
     def stop_nps(self, get):
         if 'software_name' not in get:
@@ -3860,86 +3826,26 @@ class config:
         return public.returnMsg(True, '关闭成功')
 
     def get_nps(self, get):
-        if not hasattr(get, 'software_name'):
-            return public.ReturnMsg(False, '参数错误')
-        software_name = get.software_name
-        if software_name == "panel":
-            return self._get_panel_nps()
-        data = {'safe_day': 0}
-        # conf = self.get_config(None)
-        # 判断运行天数
-        if os.path.exists("data/%s_nps_time.pl" % software_name):
-            try:
-                nps_time = float(public.ReadFile("data/%s_nps_time.pl" % software_name))
-                data['safe_day'] = int((time.time() - nps_time) / 86400)
-
-            except:
-                public.WriteFile("data/%s_nps_time.pl" % software_name, "%s" % time.time())
-        else:
-            public.WriteFile("data/%s_nps_time.pl" % software_name, "%s" % time.time())
-
-        if not os.path.exists("data/%s_nps.pl" % software_name):
-            # 如果安全运行天数大于5天 并且没有没有填写过nps的信息
-            data['nps'] = False
-        else:
-            data['nps'] = True
-        return data
+        # 纯净版：关闭全部 NPS/评价问卷
+        return {'safe_day': 0, 'nps': False}
 
     def update_nps(self, get):
-        url = "https://nps.bt.cn/api/index.php"
-        data = {
-            'action': "list",
-            'product_type': get.get('product_type', 0),
-            'version': get.get('version', -1)}
-        res = requests.post(url, data=data)
-        if res.status_code == 200:
-            data1 = res.json()['data']
-            public.writeFile('/www/server/panel/data/nps_{}.json'.format(get.get('product_type', 0)), json.dumps(data1))
-            return data1
+        # 纯净版：不拉取问卷
         return False
 
     def get_nps_new(self, get):
-        """
-        获取问卷
-        """
-        try:
-            product_type = get.get('product_type', 0)
-            nps_path = '/www/server/panel/data/nps_{}.json'.format(product_type)
-            # request发送post请求并指定form_data参数
-            if not os.path.exists(nps_path):
-                data = self.update_nps(get)
-                if not data:
-                    return public.returnMsg(False, "获取问卷失败")
-            else:
-                data = json.loads(public.readFile(nps_path))
-                public.run_thread(self.update_nps, (get,))
-            return public.returnMsg(True, data)
-        except:
-            return public.returnMsg(False, "获取问卷失败")
+        """获取问卷（纯净版关闭）"""
+        return public.returnMsg(False, "评价问卷已关闭")
 
-    # 获取NPS标签列表
+    # 获取NPS标签列表（纯净版关闭）
     def get_nps_info(self, get):
-        try:
-            api_url = 'https://nps.bt.cn/api/index.php'
-            data = {
-                'action': 'tags',
-                'product_type': get.get('product_type/d', 0)
-            }
-            res = requests.post(api_url, data=data, timeout=10)
-            if res.status_code == 200:
-                return public.returnMsg(True, res.json()['data'])
-            else:
-                return public.returnMsg(False, "获取失败")
-        except:
-            return public.returnMsg(True, "获取失败")
-
+        return public.returnMsg(False, "评价功能已关闭")
 
     def write_nps_new(self, get):
         '''
-            @name nps 提交
-            @param rate 评分
-            @param feedback 反馈内容
+            @name nps 提交（纯净版拒绝）
         '''
+        return public.returnMsg(False, "评价功能已关闭")
         try:
             if not hasattr(get, 'software_name'): public.returnMsg(False, '参数错误')
             software_name = get['software_name']
@@ -3998,11 +3904,9 @@ class config:
 
     def write_nps(self, get):
         '''
-            @name nps 提交
-            @param rate 评分
-            @param feedback 反馈内容
-
+            @name nps 提交（纯净版关闭）
         '''
+        return public.returnMsg(False, "评价功能已关闭")
         if 'product_type' not in get: public.returnMsg(False, '参数错误')
         if 'software_name' not in get: public.returnMsg(False, '参数错误')
         software_name = get.software_name
@@ -4143,17 +4047,8 @@ class config:
             fp.write(json.dumps(nps_data))
 
     def _get_panel_nps(self):
-        nps_data = self._get_panel_nps_data()
-        safe_day = int((time.time() - nps_data["time"]) / 86400)
-        res = {'safe_day': safe_day}
-        if nps_data["status"] == "complete":
-            res["nps"] = False
-        elif nps_data["status"] == "stopped":
-            res["nps"] = False
-        else:
-            if safe_day >= 10:
-                res["nps"] = True
-        return res
+        # 已关闭 NPS 问卷
+        return {'safe_day': 0, 'nps': False}
 
     def _stop_panel_nps(self, is_complete: bool = False):
         nps_data = self._get_panel_nps_data()

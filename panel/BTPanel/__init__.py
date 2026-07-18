@@ -299,10 +299,9 @@ def request_check():
             'get_tmp_token','download_cert'
         ]:
             return
-        if not public.is_bind():
-            return redirect('/bind', 302)
+        # 纯净版：不强制绑定官网账号，不跳转封锁页
         if public.is_error_path():
-            return redirect('/error', 302)
+            return
         if not request.path in ['/config']:
             reslut = session.get('password_expire', None)
             if reslut is None:
@@ -545,18 +544,14 @@ def home():
     comReturn = comm.local()
     if comReturn: return comReturn
     args = get_input()
+    # 纯净版：自动接受协议，免绑定
     licenes = 'data/licenes.pl'
-    if 'license' in args:
+    if 'license' in args or not os.path.exists(licenes):
         public.writeFile(licenes, 'True')
-    if not os.path.exists(licenes): return render_template('license.html')
-    if not public.is_bind():
-        return redirect('/bind', 302)
 
     import system
     data = system.system().GetConcifInfo()
     data['bind'] = False
-    if not os.path.exists('data/userInfo.json'):
-        data['bind'] = os.path.exists('data/bind.pl')
     # data[public.to_string([112, 100])], data['pro_end'], data['ltd_end'] = get_pd()
     data[public.to_string([112,
                            100])], data['pro_end'], data['ltd_end'] = get_pd()
@@ -565,6 +560,9 @@ def home():
     data['databaseCount'] = public.M('databases').count()
     data['lan'] = public.GetLan('index')
     data['js_random'] = get_js_random()
+    data['hide_ad'] = True
+    data['show_recommend'] = False
+    data['show_workorder'] = False
     public.get_rsa_public_key()  # 堡塔多机管理会跳过登录直达 /bind 和 /home 为防无法触发 rsa_public_key 生成
     return render_template('index.html', data=data)
 
@@ -590,14 +588,10 @@ def xterm():
 
 @app.route('/bind', methods=method_get)
 def bind():
+    # 纯净版：绑定页直接回首页
     comReturn = comm.local()
     if comReturn: return comReturn
-    userInfo = public.get_user_info()
-    if not userInfo or userInfo['uid'] != -1: return redirect('/', 302)
-    data = {}
-    g.title = '请先绑定宝塔帐号'
-    public.get_rsa_public_key()  # 堡塔多机管理会跳过登录直达 /bind 和 /home 为防无法触发 rsa_public_key 生成
-    return render_template('index.html', data=data)
+    return redirect('/', 302)
 
 
 @app.route('/error', methods=method_get)
@@ -835,7 +829,7 @@ def logs(action=None,pdata=None):
     if request.method == method_get[0] and not pdata:
         data = {}
         data['lan'] = public.GetLan('soft')
-        data['show_workorder'] = not os.path.exists('data/not_workorder.pl')
+        data['show_workorder'] = False
         return render_template('index.html', data=data)
 
 
@@ -966,8 +960,6 @@ def msgcontroller(mod_name, def_name):
 @app.route('/docker/<action>', methods=method_all)
 @app.route('/docker_ifame', methods=method_all)
 def docker(action=None, pdata=None):
-    if not public.is_bind():
-        return redirect('/bind', 302)
     comReturn = comm.local()
     if comReturn: return comReturn
     if request.method == method_get[0]:
@@ -1127,8 +1119,8 @@ def config(action=None,pdata=None):
         if data['basic_auth']['open']:
             data['basic_auth']['value'] = public.getMsg('OPENED')
         data['debug'] = ''
-        data['show_recommend'] = not os.path.exists('data/not_recommend.pl')
-        data['show_workorder'] = not os.path.exists('data/not_workorder.pl')
+        data['show_recommend'] = False
+        data['show_workorder'] = False
         data['notice_risk_ignore'] = c_obj.get_notice_risk_ignore()
         data['js_random'] = get_js_random()
         if app.config['DEBUG']: data['debug'] = 'checked'
@@ -2235,11 +2227,7 @@ def panel_ssl(name=None, fun=None):
 @app.route('/<name>/<fun>', methods=method_all)
 @app.route('/<name>/<fun>/<path:stype>', methods=method_all)
 def panel_other(name=None, fun=None, stype=None):
-
-    if not public.is_bind():
-        return redirect('/bind', 302)
-    if public.is_error_path():
-        return redirect('/error', 302)
+    # 纯净版：不强制绑定
     if not name: return abort(404)
     if not re.match(r"^[\w\-]+$", name): return abort(404)
     if fun and not re.match(r"^[\w\-\.]+$", fun): return abort(404)
@@ -2600,7 +2588,8 @@ def check_login(http_token=None):
 
 
 def get_pd():
-    # 获取授权信息
+    # 获取授权信息（已移除升级/续费推广 HTML，不伪造授权）
+    return '', -1, -1
     tmp = -1
     # try:
     #     import panelPlugin
@@ -3524,10 +3513,7 @@ def panel_mod(name=None, sub_name=None, fun=None, stype=None):
         @param "data":{"参数名":""} <数据类型> 参数描述
         @return dict{"status":True/False,"msg":"提示信息"}
     '''
-    if not public.is_bind():
-        return redirect('/bind', 302)
-    if public.is_error_path():
-        return redirect('/error', 302)
+    # 纯净版：不强制绑定
     if not name: return abort(404)
     if not sub_name: return abort(404)
     if not re.match(r"^[\w\-]+$", name): return abort(404)

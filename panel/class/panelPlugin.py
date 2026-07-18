@@ -1524,30 +1524,7 @@ class panelPlugin:
         '''
             data 插件列表
         '''
-        s_time = time.time()
-        is_plugin = True
-        import panelMessage  # 引用消息提醒模块
-        pm = panelMessage.panelMessage()
-        # 企业版到期提醒
-        if not data['ltd'] in [-1]:
-
-            if data['pro'] < 0 or (data['pro'] - s_time) / 86400 < 15:
-                level, expire_day = self.get_level_msg('ltd', s_time,
-                                                       data['ltd'])
-                print(level, expire_day)
-                self.add_expire_msg('企业版', level, 'ltd', expire_day, 100000046,
-                                    data['ltd'])
-                pm.remove_message_level('pro')
-                return True
-
-        # 专业版到期提醒
-        if not data['pro'] in [-1, 0]:
-            level, expire_day = self.get_level_msg('pro', s_time, data['pro'])
-            self.add_expire_msg('专业版', level, 'pro', expire_day, 100000030,
-                                data['pro'])
-            pm.remove_message_level('ltd')
-            is_plugin = False
-
+        # 已移除专业版/企业版续费消息
         return True
 
     # 提交用户评分
@@ -1975,17 +1952,9 @@ class panelPlugin:
             if public.readFile(check_version_path).find('2.2') == 0:
                 softList['apache22'] = True
                 softList['apache24'] = False
-        if os.path.exists('data/not_recommend.pl'):
-            if 'recommend' in softList:
-                del (softList['recommend'])
+        # 已删除软件商店推荐位
         if 'recommend' in softList:
-            for n in range(len(softList['recommend'])):
-                if softList['recommend'][n]['type'] != 'soft': continue
-                for i in range(len(softList['recommend'][n]['data'])):
-                    check_path = '/www/server/panel/plugin/' + softList[
-                        'recommend'][n]['data'][i]['name']
-                    softList['recommend'][n]['data'][i][
-                        'setup'] = os.path.exists(check_path)
+            del (softList['recommend'])
         softList['search_history'] = public.get_search_history("get_soft_list", "get_soft_list")
 
         return softList
@@ -4051,47 +4020,15 @@ class panelPlugin:
 
     # 获取云端帐户状态
     def get_cloud_list_status(self, get):
+        # 纯净版：不检查云端账号状态，不写封锁页
         try:
-            ikey = 'cloud_list_status'
-            if cache.get(ikey): return False
-            pdata = public.get_user_info()
-            if pdata['uid'] == -1: return '2'
-            pdata['mac'] = self.get_mac_address()
-            list_body = public.HttpPost(self._check_url, pdata)
-            if not list_body: return False
-            cache.set(ikey, 1, 600)
-            list_body = json.loads(list_body)
-            if not list_body['status'] and pdata['uid'] != -1:
-                public.writeFile(self.__path_error, "error")
-                msg = '''{% extends "layout.html" %}
-{% block content %}
-<div class="main-content pb55" style="min-height: 525px;">
-    <div class="container-fluid">
-        <div class="site_table_view bgw mtb15 pd15 text-center">
-            <div style="padding:50px">
-                <h1 class="h3"></h1>
-                '''
-                msg += list_body['title'] + list_body['body']
-                msg += '''
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock %}
-{% block scripts %}
-{% endblock %}'''
-                public.writeFile(self.__error_html, msg)
-                return '3'
-            else:
-                if os.path.exists(self.__path_error):
-                    os.remove(self.__path_error)
-                if os.path.exists(self.__error_html):
-                    os.remove(self.__error_html)
-                return '2'
-        except:
-            if os.path.exists(self.__path_error): os.remove(self.__path_error)
-            if os.path.exists(self.__error_html): os.remove(self.__error_html)
-            return '1'
+            if os.path.exists(self.__path_error):
+                os.remove(self.__path_error)
+            if os.path.exists(self.__error_html):
+                os.remove(self.__error_html)
+        except Exception:
+            pass
+        return '2'
 
     # 获取用户信息
     def get_user_info(self):
@@ -4114,22 +4051,8 @@ class panelPlugin:
 
     # 判断是否解除绑定
     def is_verify_unbinding(self, get):
-        try:
-            ikey = 'verify_unbinding'
-            if cache.get(ikey): return True
-            path = '{}/data/userInfo.json'.format(public.get_panel_path())
-            pdata = self.get_user_info()
-            if not pdata: return 'None'
-            list_body = public.HttpPost(self._unbinding_url, pdata)
-            if not list_body: return False
-            cache.set(ikey, 1, 600)
-            list_body = json.loads(list_body)
-            if not list_body['status']:
-                if os.path.exists(path): os.remove(path)
-                return False
-            return True
-        except:
-            pass
+        # 纯净版：不向云端校验解绑，不影响本地使用
+        return True
 
     @classmethod
     def __pull_popular_searches(cls):

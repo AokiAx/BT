@@ -4028,13 +4028,24 @@ def get_user_info():
 
 
 def is_bind():
-    # if not os.path.exists('{}/data/bind.pl'.format(get_panel_path())): return True
-    # return not not get_user_info()
-    if not os.path.exists('data/initBind.pl'):
-        writeFile('data/initBind.pl', 'True')
-        return False
-    else:
-        return True
+    """
+    纯净版：永不强制绑定官网账号。
+    返回 True 表示“已通过绑定检查”，可直接进入面板。
+    """
+    try:
+        # 保持本地标记文件存在，避免部分逻辑反复触发首次绑定流程
+        init_bind = '{}/data/initBind.pl'.format(get_panel_path())
+        if not os.path.exists(init_bind):
+            writeFile(init_bind, 'True')
+        licenes = '{}/data/licenes.pl'.format(get_panel_path())
+        if not os.path.exists(licenes):
+            writeFile(licenes, 'True')
+        hide_ad = '{}/data/hide_ad.pl'.format(get_panel_path())
+        if not os.path.exists(hide_ad):
+            writeFile(hide_ad, 'True')
+    except Exception:
+        pass
+    return True
 
 
 def send_file(data, fname='', mimetype=''):
@@ -5886,9 +5897,13 @@ def stop_status_mvore():
 
 
 def is_error_path():
-    if os.path.exists("/www/server/panel/data/error_pl.pl"):
-        stop_status_mvore()
-        return True
+    # 纯净版：忽略云端账号异常封锁页
+    try:
+        err = "{}/data/error_pl.pl".format(get_panel_path())
+        if os.path.exists(err):
+            os.remove(err)
+    except Exception:
+        pass
     return False
 
 
@@ -7322,12 +7337,22 @@ def get_improvement():
         @name 获取用户体验改进计划状态
         @author hwliang
         @return bool
+        纯净版：固定关闭，不参与体验改善/上报计划
     '''
     tip_file = '{}/data/improvement.pl'.format(get_panel_path())
     tip_file_set = '{}/data/is_set_improvement.pl'.format(get_panel_path())
+    # 确保标记文件存在，避免默认开启
     if not os.path.exists(tip_file_set):
-        return True
-    return os.path.exists(tip_file)
+        try:
+            writeFile(tip_file_set, '1')
+        except Exception:
+            pass
+    if os.path.exists(tip_file):
+        try:
+            os.remove(tip_file)
+        except Exception:
+            pass
+    return False
 
 
 def is_spider():

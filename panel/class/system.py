@@ -179,7 +179,10 @@ class system:
         data['systemdate'] = public.ExecShell('date +"%Y-%m-%d %H:%M:%S %Z %z"')[0].strip();
         data['show_workorder'] = not os.path.exists('data/not_workorder.pl')
         data['show_panelai'] = not os.path.exists('data/not_panelai.pl')
-        data['show_evaluate'] = not os.path.exists('data/not_evaluate.pl')
+        # 纯净版：评价功能固定关闭
+        if not os.path.exists('data/not_evaluate.pl'):
+            public.writeFile('data/not_evaluate.pl', 'True')
+        data['show_evaluate'] = False
         
         return data
 

@@ -65,43 +65,6 @@
           "ename": "apache"
         }
       ]
-    },
-    {
-      "title": "热门推荐",
-      "plugin": [
-        {
-          "name": "Nginx防火墙",
-          "ename": "btwaf"
-        },
-        {
-          "name": "堡塔企业级防篡改",
-          "ename": "tamper_core"
-        },
-        {
-          "name": "网站监控报表",
-          "ename": "monitor"
-        },
-        {
-          "name": "文件同步工具",
-          "ename": "rsync"
-        },
-        {
-          "name": "宝塔任务管理器",
-          "ename": "task_manager"
-        },
-        {
-          "name": "宝塔系统加固",
-          "ename": "syssafe"
-        },
-        {
-          "name": "堡塔防入侵",
-          "ename": "bt_security"
-        },
-        {
-          "name": "PHP网站安全告警",
-          "ename": "security_notice"
-        }
-      ]
     }
   ]
 }

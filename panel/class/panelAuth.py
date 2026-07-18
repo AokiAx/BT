@@ -395,7 +395,8 @@ class panelAuth:
             return None
 
     def get_ad_list(self):
-        pass
+        # 已删除广告列表
+        return []
 
     def check_plugin_end(self):
         pass

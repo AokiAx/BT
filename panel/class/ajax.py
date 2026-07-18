@@ -1708,12 +1708,8 @@ CREATE TABLE IF NOT EXISTS `network` (
     
     # 获取广告代码
     def GetAd(self, get):
-        try:
-            return public.HttpGet(
-                public.GetConfigValue('home') + '/Api/GetAD?name=' + get.name +
-                '&soc=' + get.soc)
-        except:
-            return ''
+        # 已移除广告：固定空返回，不请求远端
+        return ''
     
     # 获取进度
     def GetSpeed(self, get):
@@ -1872,6 +1868,8 @@ CREATE TABLE IF NOT EXISTS `network` (
             True, public.xsssec(public.GetNumLines(get.path, 1000)))
     
     def get_pd(self, get):
+        # 已移除升级/续费推广文案（不伪造授权，仅去掉展示）
+        return '', -1, -1
         from BTPanel import cache
         tmp = -1
         try:
@@ -2007,28 +2005,8 @@ CREATE TABLE IF NOT EXISTS `network` (
     
     # 检查用户绑定是否正确
     def check_user_auth(self, get):
-        m_key = 'check_user_auth'
-        if m_key in session: return session[m_key]
-        u_path = 'data/userInfo.json'
-        try:
-            userInfo = json.loads(public.ReadFile(u_path))
-        except:
-            if os.path.exists(u_path): os.remove(u_path)
-            return public.returnMsg(False, '宝塔帐户绑定已失效，请在[设置]页面重新绑定!')
-        pdata = {
-            'access_key': userInfo['access_key'],
-            'secret_key': userInfo['secret_key']
-        }
-        result = public.HttpPost(
-            public.GetConfigValue('home') + '/api/panel/check_auth_key', pdata,
-            3)
-        if result == '0':
-            if os.path.exists(u_path): os.remove(u_path)
-            return public.returnMsg(False, '宝塔帐户绑定已失效，请在[设置]页面重新绑定!')
-        if result == '1':
-            session[m_key] = public.returnMsg(True, '绑定有效!')
-            return session[m_key]
-        return public.returnMsg(True, result)
+        # 纯净版：免绑定，始终视为有效
+        return public.returnMsg(True, 'OK')
     
     # PHP探针
     def php_info(self, args):
@@ -2132,77 +2110,24 @@ CREATE TABLE IF NOT EXISTS `network` (
         return log_analysis.get_detailed(get)
     
     def download_pay_type(self, path):
-        public.downloadFile(public.get_url() + '/install/lib/pay_type.json', path)
+        # 已移除付费推荐：写入空列表，不下载远端
+        try:
+            public.writeFile(path, '[]')
+        except Exception:
+            pass
         return True
     
     def get_pay_type(self, get):
         """
-            @name 获取推荐列表
+            @name 获取推荐列表（已清空，不再返回付费推广）
         """
-        spath = '{}/data/pay_type.json'.format(public.get_panel_path())
-        if os.path.exists(spath) and os.path.getsize(spath) <= 0:
-            os.remove(spath)
-        
-        if not os.path.exists(spath):
-            public.run_thread(self.download_pay_type, (spath,))
-        try:
-            res = public.readFile("data/pay_type.json")
-            if 'monitor' not in res:
-                os.remove(spath)
-                public.run_thread(self.download_pay_type, (spath,))
-            data = json.loads(res)
-        except json.decoder.JSONDecodeError:
-            if os.path.exists(spath):os.remove(spath)
-            public.run_thread(self.download_pay_type, (spath,))
-            # data = json.loads(public.readFile("data/pay_type.json"))
-            data = self.get_default_pay_type()
-        except Exception:
-            data = self.get_default_pay_type()
-        
-        import panelPlugin
-        plu_panel = panelPlugin.panelPlugin()
-        plugin_list = plu_panel.get_cloud_list()
-        if not 'pro' in plugin_list: plugin_list['pro'] = -1
-        
-        for item in data:
-            if 'list' in item:
-                item['list'] = self.__get_home_list(item['list'], item['type'],
-                                                    plugin_list, plu_panel)
-                if item['type'] == 1:
-                    if len(item['list']) > 4: item['list'] = item['list'][:4]
-            if item['type'] == 0 and plugin_list['pro'] >= 0:
-                item['show'] = False
-        return data
+        return []
     
     def __get_home_list(self, sList, stype, plugin_list, plu_panel):
         """
-            @name 获取首页软件列表推荐
+            @name 获取首页软件列表推荐（已禁用）
         """
-        nList = []
-        webserver = public.get_webserver()
-        for x in sList:
-            for plugin_info in plugin_list['list']:
-                if x['name'] == plugin_info['name']:
-                    if not 'endtime' in plugin_info or plugin_info[
-                        'endtime'] >= 0:
-                        x['isBuy'] = True
-            is_check = False
-            if 'dependent' in x:
-                if x['dependent'] == webserver: is_check = True
-            else:
-                is_check = True
-            if is_check:
-                info = plu_panel.get_soft_find(x['name'])
-                if info:
-                    if stype == 1:
-                        if plugin_list['pro'] >= 0: continue
-                        if not info['setup']:
-                            x['install'] = info['setup']
-                            nList.append(x)
-                    else:
-                        x['install'] = info['setup']
-                        nList.append(x)
-        return nList
+        return []
     
     def ignore_version(self, get):
         """
@@ -2306,272 +2231,8 @@ CREATE TABLE IF NOT EXISTS `network` (
     
     @staticmethod
     def get_default_pay_type():
-        spath = '{}/data/default_pay_type.json'.format(public.get_panel_path())
-        default = [
-    {
-        "type": 0,
-        "pay": "45",
-        "describe": "首页-企业版推荐",
-        "show": True,
-        "route": "home",
-        "name": "ltd",
-        "price": "999.99",
-        "preview": "https://www.bt.cn/new/product/linux_ltd.html",
-        "ps": [
-			"5分钟极速响应",
-			"15天无理由退款",
-            "30+款付费插件",
-            "20+企业版专享功能",
-            "2张SSL商用证书（年付）",
-            "1000条免费短信（年付）",
-            "专享企业服务群（年付）"
-           
-        ]
-    },
-    {
-        "type": 1,
-        "describe": "首页-软件管理-常用软件推荐",
-        "show": True,
-        "route": "home",
-        "list": [
-            {
-                "pay": "40",
-                "title": "网站防火墙",
-                "name": "btwaf",
-                "isBuy": False,
-                "install": False,
-                "pid": 100000010,
-                "dependent": "nginx",
-                "pluginType": "pro",
-                "preview": "https://www.bt.cn/new/product_nginx_firewall.html",
-                "ps": "web防火墙，有效抵御CC攻击、SQL注入、XSS跨站攻击、建站程序漏洞、一句话木马等常见渗透攻击"
-            },
-            {
-                "pay": "40",
-                "title": "网站防火墙",
-                "name": "btwaf_httpd",
-                "install": False,
-                "isBuy": False,
-                "pid": 100000012,
-                "pluginType": "pro",
-                "dependent": "apache",
-                "preview": "https://www.bt.cn/new/product_nginx_firewall.html",
-                "ps": "web防火墙，有效抵御CC攻击、SQL注入、XSS跨站攻击、建站程序漏洞、一句话木马等常见渗透攻击"
-            },
-            {
-                "pay": "41",
-                "title": "网站监控报表-重构版",
-                "name": "monitor",
-                "isBuy": False,
-                "install": False,
-                "pluginType": "pro",
-                "pid": 100000014,
-                "preview": "https://www.bt.cn/new/product_website_total.html",
-                "ps": "网站监控报表，实时精确统计网站流量、ip、uv、pv、请求、蜘蛛等数据"
-            },
-            {
-                "pay": "42",
-                "title": "堡塔企业级防篡改-重构版",
-                "name": "tamper_core",
-                "isBuy": False,
-                "install": False,
-                "preview": "",
-                "pid": 100000067,
-                "pluginType": "ltd",
-                "ps": "事件型防篡改程序,可有效保护网站重要文件不被木马篡改"
-            },
-			{
-                "pay": "43",
-                "title": "堡塔防入侵",
-                "name": "bt_security",
-                "isBuy": False,
-                "install": False,
-                "pid": 100000054,
-                "pluginType": "ltd",
-                "preview": "",
-                "ps": "防御大多数的入侵提权攻击造成的挂马和被挖矿"
-            }
-        ]
-    },
-    {
-        "type": 2,
-        "pay": "33",
-        "describe": "首页-状态-任务管理器",
-        "show": True,
-        "route": "home",
-        "list": []
-    },
-    {
-        "type": 3,
-        "pay": "34",
-        "describe": "首页-安全入口-推荐安全软件",
-        "show": True,
-        "route": "home",
-        "list": []
-    },
-    {
-        "type": 4,
-        "pay": "35",
-        "describe": "网站-网站加速",
-        "show": False,
-        "name": "waf_nginx",
-        "title": "网站加速",
-        "pluginName": "堡塔nginx站点加速",
-        "ps": "基于nginx页面缓存的网站加速插件,推荐WordPress用户安装，效果显著，仅支持Nginx",
-        "preview": "",
-        "eventList": [
-            {
-                "event": "",
-                "version": ""
-            }
-        ]
-    },
-    {
-        "type": 5,
-        "describe": "网站-设置推荐",
-        "show": True,
-        "list": [
-            {
-                "title": "防火墙",
-                "name": "btwaf",
-                "pay": "46",
-                "pluginName": "Nginx网站防火墙",
-                "ps": "有效拦截SQL 注入、XSS跨站、恶意代码、网站挂马等常见攻击，过滤恶意访问，降低数据泄露的风险，保障网站的可用性。",
-                "preview": "https://www.bt.cn/new/product_nginx_firewall.html",
-                "dependent": "nginx",
-                "pluginType": "pro",
-                "eventList": [
-                    {
-                        "event": "site_waf_config('$siteName')",
-                        "version": "5.2.0"
-                    }
-                ]
-            },
-            {
-                "title": "防火墙",
-                "name": "btwaf_httpd",
-                "pay": "46",
-                "pluginName": "网站防火墙",
-                "ps": "有效拦截SQL 注入、XSS跨站、恶意代码、网站挂马等常见攻击，过滤恶意访问，降低数据泄露的风险，保障网站的可用性。",
-                "preview": "https://www.bt.cn/new/product_nginx_firewall.html",
-                "dependent": "apache",
-                "pluginType": "pro",
-                "eventList": [
-                    {
-                        "event": "site_waf_config('$siteName')",
-                        "version": "5.2.0"
-                    }
-                ]
-            },
-            {
-                "title": "统计",
-                "name": "total",
-                "pay": "47",
-                "pluginName": "网站监控报表",
-                "ps": "快速分析网站运行状况，实时精确统计网站流量、ip、uv、pv、请求、蜘蛛等数据，网站SEO优化利器",
-                "preview": "https://www.bt.cn/new/product_website_total.html",
-                "dependent": "apache",
-                "pluginType": "pro",
-                "eventList": [
-                    {
-                        "event": "WebsiteReport('$siteName')",
-                        "version": "5.0"
-                    }
-                ]
-            },
-            {
-                "title": "统计",
-                "name": "total",
-                "pay": "47",
-                "pluginName": "网站监控报表",
-                "ps": "快速分析网站运行状况，实时精确统计网站流量、ip、uv、pv、请求、蜘蛛等数据，网站SEO优化利器",
-                "preview": "https://www.bt.cn/new/product_website_total.html",
-                "dependent": "nginx",
-                "pluginType": "pro",
-                "eventList": [
-                    {
-                        "event": "WebsiteReport('$siteName')",
-                        "version": "5.0"
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "type": 6,
-        "show": True,
-        "describe": "网站管理-推荐安全软件",
-        "list": [
-            {
-                "title": "网站防篡改程序",
-                "pay": "60",
-                "name": "tamper_proof",
-                "product_introduce": [
-                    "保护站点内容安全",
-                    "阻止黑客非法修改网页",
-                    "阻止网站被挂马",
-                    "阻止其他入侵行为"
-                ],
-                "previewImg": "https://www.bt.cn/Public/new/plugin/introduce/site/tamper_proof_preview.png",
-                "menu_id": 15,
-				"menu_name":"防篡改",
-                "isBuy": False,
-                "pid": 100000015,
-                "pluginType": "pro",
-                "preview": "",
-                "ps": "事件型防篡改程序,可有效保护网站重要文件不被木马篡改"
-            },
-            {
-                "title": "限制访问型证书",
-                "pay": "61",
-                "name": "ssl_verify",
-                "pluginType": "ltd",
-                "product_introduce": [
-                    "限制指定人员访问",
-                    "双向认证",
-                    "内网自签SSL"
-                ],
-                "previewImg": "https://www.bt.cn/Public/new/plugin/introduce/site/ssl_verify_preview.png",
-                "menu_id": 3,
-				"menu_name":"访问限制",
-                "isBuy": False,
-                "pid": 100000062,
-                "preview": "",
-                "ps": "提供双向认证证书，可用于限制指定人员访问"
-            }
-        ]
-    },
-    {
-        "type": 7,
-        "show": True,
-        "describe": "文件管理-推荐安全软件",
-        "list": [
-            {
-                "title": "文件同步",
-                "pluginName": "文件同步",
-                "pay": "70",
-                "name": "rsync",
-                "pluginType": "pro",
-                "ps": "基于rsync开发的文件同步工具，可用于异地备份、多台主机之间的文件实时或增量同步",
-                "previewImg": "https://www.bt.cn/Public/new/plugin/rsync/1.png",
-                "menu_id": 15,
-                "isBuy": False,
-                "pid": 100000005,
-                "preview": ""
-            }
-        ]
-    }
-]
-        if os.path.isfile(spath):
-            try:
-                res_data = json.loads(public.readFile(spath))
-                if isinstance(res_data, list):
-                    return res_data
-            except json.JSONDecodeError:
-                pass
-            # 再次出错时，保障网站列表可以展示
-            return default
-        return default
+        # 已删除付费推荐默认数据
+        return []
     
     # 获取指定天数的网络Io
     def GetNetWorkIoByDay(self, get):
