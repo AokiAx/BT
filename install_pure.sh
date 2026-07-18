@@ -21,9 +21,9 @@ LANG=en_US.UTF-8
 
 # ---------- 配置区：发布到 GitHub 后改成你的仓库 ----------
 # 例：https://raw.githubusercontent.com/AokiCore/BT/main
-DEFAULT_PURE_RAW_BASE="https://raw.githubusercontent.com/CHANGE_ME/BT/main"
+DEFAULT_PURE_RAW_BASE="https://raw.githubusercontent.com/AokiAx/BT/main"
 # 大文件更推荐 Release（超过几十 MB 时 raw 可能慢或失败）：
-# DEFAULT_PANEL_ZIP_URL="https://github.com/CHANGE_ME/BT/releases/download/pure-v1/panel-pure.zip"
+# DEFAULT_PANEL_ZIP_URL="https://github.com/AokiAx/BT/releases/download/pure-v1/panel-pure.zip"
 DEFAULT_PANEL_ZIP_URL=""
 # ---------------------------------------------------------
 
@@ -44,18 +44,6 @@ if [ -z "${PANEL_ZIP_URL}" ]; then
 fi
 
 INSTALL_PANEL_URL="${INSTALL_PANEL_URL:-${PURE_RAW_BASE}/install_panel.sh}"
-
-if echo "${PURE_RAW_BASE}" | grep -q "CHANGE_ME"; then
-	echo "============================================================"
-	echo "请先修改 install_pure.sh 顶部配置区，或通过环境变量指定仓库："
-	echo ""
-	echo "  export PURE_RAW_BASE=https://raw.githubusercontent.com/你的用户名/你的仓库/main"
-	echo "  curl -fsSL \$PURE_RAW_BASE/install_pure.sh | bash"
-	echo ""
-	echo "并把 panel-pure.zip、install_panel.sh、install_pure.sh 推到该仓库。"
-	echo "============================================================"
-	exit 1
-fi
 
 echo "============================================================"
 echo " 宝塔纯净版安装"
